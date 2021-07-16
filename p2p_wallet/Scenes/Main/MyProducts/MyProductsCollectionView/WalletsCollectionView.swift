@@ -52,4 +52,15 @@ class WalletsCollectionView: BEStaticSectionsCollectionView {
     override func dataDidChangeObservable() -> Observable<Void> {
         walletsRepository.dataDidChange
     }
+    
+    override func mapDataToSnapshot() -> NSDiffableDataSourceSnapshot<AnyHashable, BECollectionViewItem> {
+        var snapshot = super.mapDataToSnapshot()
+        let lastSectionIdentifier = sectionIdentifier(sectionIndex: 1)
+        if snapshot.sectionIdentifiers.contains(lastSectionIdentifier),
+            (hiddenWalletsSection.viewModel as? WalletsViewModel)?.hiddenWallets().count == 0
+        {
+            snapshot.deleteSections([lastSectionIdentifier])
+        }
+        return snapshot
+    }
 }

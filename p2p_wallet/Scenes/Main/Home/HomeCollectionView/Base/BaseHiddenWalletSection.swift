@@ -120,31 +120,9 @@ class HiddenWalletsSection: WalletsSection {
     
     private func updateHeader(headerView: HiddenWalletsSectionHeaderView) {
         let viewModel = self.viewModel as! WalletsRepository
-        let shouldUpdateHeight = headerView.setUp(
+        headerView.setUp(
             isHiddenWalletsShown: viewModel.isHiddenWalletsShown.value,
             hiddenWalletList: viewModel.hiddenWallets()
         )
-        
-        if shouldUpdateHeight {
-            let context = UICollectionViewLayoutInvalidationContext()
-            context.invalidateSupplementaryElements(ofKind: UICollectionView.elementKindSectionHeader, at: [.init(row: 0, section: 1)])
-            collectionView?.relayout(context)
-        }
-        
-//        var shouldRelayout = false
-//        if viewModel.hiddenWallets().isEmpty {
-//            if headerView.stackView.isDescendant(of: headerView) {
-//                shouldRelayout = true
-//                headerView.removeStackView()
-//            }
-//        } else {
-//            if !headerView.stackView.isDescendant(of: headerView) {
-//                shouldRelayout = true
-//                headerView.addStackView()
-//            }
-//        }
-//        if shouldRelayout {
-//            collectionView?.relayout()
-//        }
     }
 }

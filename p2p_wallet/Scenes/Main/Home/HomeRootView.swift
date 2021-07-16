@@ -96,7 +96,7 @@ class HomeRootView: BEView {
         tabBar.autoPinEdgesToSuperviewEdges(with: .zero, excludingEdge: .top)
         
         // collectionView modifier
-        collectionView.collectionView.contentInset = .init(top: 50 + safeAreaInsets.top, left: 0, bottom: 120, right: 0)
+        collectionView.collectionView.contentInset = .init(top: 50 + safeAreaInsets.top, left: 0, bottom: 200, right: 0)
     }
     
     private func bind() {
