@@ -11,6 +11,7 @@ import RxCocoa
 import Action
 
 enum HomeNavigatableScene {
+    case buyToken
     case receiveToken
     case scanQrWithSwiper(progress: CGFloat, state: UIGestureRecognizer.State)
     case scanQrCodeWithTap
@@ -68,6 +69,10 @@ class HomeViewModel {
     
     @objc func showSettings() {
         navigationSubject.onNext(.profile)
+    }
+    
+    @objc func buyToken() {
+        navigationSubject.onNext(.buyToken)
     }
     
     @objc func receiveToken() {

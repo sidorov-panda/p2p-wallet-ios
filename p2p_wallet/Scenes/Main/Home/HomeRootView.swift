@@ -53,7 +53,8 @@ class HomeRootView: BEView {
         tabBar.backgroundColor = .white.onDarkMode(.h2a2a2a)
         tabBar.stackView.addArrangedSubviews([
             .spacer,
-//                    createButton(image: .walletAdd, title: L10n.buy),
+            createButton(image: .walletAdd, title: L10n.buy)
+                .onTap(viewModel, action: #selector(HomeViewModel.buyToken)),
             createButton(image: .walletReceive, title: L10n.receive)
                 .onTap(viewModel, action: #selector(HomeViewModel.receiveToken)),
             createButton(image: .walletSend, title: L10n.send)
