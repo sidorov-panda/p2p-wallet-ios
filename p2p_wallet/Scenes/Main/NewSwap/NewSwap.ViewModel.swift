@@ -160,11 +160,11 @@ extension NewSwap {
                         lamportsPerSignature: $2,
                         creatingAccountFee: $3)
                     ?? .just([:])
-                        .catch {[weak self] _ in
-                            self?.isLoadingRelay.accept(false)
-                            self?.errorRelay.accept(L10n.couldNotRetrieveExchangeRate)
-                            return .just([:])
-                        }
+                }
+                .catch {[weak self] _ in
+                    self?.isLoadingRelay.accept(false)
+                    self?.errorRelay.accept(L10n.couldNotRetrieveExchangeRate)
+                    return .just([:])
                 }
                 .bind(to: feesRelay)
                 .disposed(by: disposeBag)
