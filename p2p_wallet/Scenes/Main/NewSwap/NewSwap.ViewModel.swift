@@ -94,6 +94,7 @@ extension NewSwap {
                 lamportsPerSignatureRelay,
                 creatingAccountFeeRelay
             )
+                .debounce(.milliseconds(300), scheduler: MainScheduler.instance)
                 .do(onNext: {[weak self] _ in
                     // reset exchange rate and fees
                     self?.exchangeRateRelay.accept(nil)
