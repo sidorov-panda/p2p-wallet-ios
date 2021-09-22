@@ -23,14 +23,6 @@ extension OrcaSwap {
         
         private lazy var balanceView = BalanceView(forAutoLayout: ())
         private lazy var iconImageView = CoinLogoImageView(size: 32, cornerRadius: 16)
-            .with(
-                placeholder: UIImageView(
-                    width: 20,
-                    height: 20,
-                    image: .walletIcon,
-                    tintColor: .white
-                ).padding(.init(all: 6), backgroundColor: .h5887ff, cornerRadius: 16)
-            )
         
         private lazy var tokenSymbolLabel = UILabel(text: "TOK", weight: .semibold, textAlignment: .center)
         
@@ -254,7 +246,7 @@ extension OrcaSwap {
         
         private func setUp(wallet: Wallet?) {
             amountTextField.wallet = wallet
-            iconImageView.setUp(wallet: wallet)
+            iconImageView.setUp(token: wallet?.token, placeholder: .walletPlaceholder)
             tokenSymbolLabel.text = wallet?.token.symbol ?? L10n.select
             
             self.wallet = wallet
