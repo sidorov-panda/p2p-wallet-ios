@@ -23,6 +23,7 @@ protocol ReceiveTokenBitcoinViewModelType {
     func createRenBTCWallet()
     func acceptConditionAndLoadAddress()
     func toggleIsReceivingRenBTC(isReceivingRenBTC: Bool)
+    func showBTCTypeOptions()
     func copyToClipboard(address: String, logEvent: AnalyticsEvent)
     func share()
     func showBTCAddressInExplorer()
@@ -35,7 +36,7 @@ extension ReceiveToken {
         
         // MARK: - Dependencies
         private let renVMService: RenVMLockAndMintServiceType
-        private let analyticsManager: AnalyticsManagerType
+        @Injected private var analyticsManager: AnalyticsManagerType
         private let navigationSubject: BehaviorRelay<NavigatableScene?>
         private let associatedTokenAccountHandler: AssociatedTokenAccountHandler
         
@@ -47,13 +48,11 @@ extension ReceiveToken {
         // MARK: - Initializers
         init(
             renVMService: RenVMLockAndMintServiceType,
-            analyticsManager: AnalyticsManagerType,
             navigationSubject: BehaviorRelay<NavigatableScene?>,
             isRenBTCWalletCreated: Bool,
             associatedTokenAccountHandler: AssociatedTokenAccountHandler
         ) {
             self.renVMService = renVMService
-            self.analyticsManager = analyticsManager
             self.navigationSubject = navigationSubject
             self.associatedTokenAccountHandler = associatedTokenAccountHandler
             
@@ -104,6 +103,10 @@ extension ReceiveToken {
         
         func toggleIsReceivingRenBTC(isReceivingRenBTC: Bool) {
             isReceivingRenBTCSubject.accept(isReceivingRenBTC)
+        }
+        
+        func showBTCTypeOptions() {
+            navigationSubject.accept(.chooseBTCOption(selectedOption: isReceivingRenBTCSubject.value ? .renBTC: .splBTC))
         }
     }
 }

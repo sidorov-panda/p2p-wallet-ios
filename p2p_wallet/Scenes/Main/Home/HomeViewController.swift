@@ -33,14 +33,13 @@ class HomeViewController: BaseVC {
     
     // MARK: - Tabbar
     lazy var homeRootView = HomeRootView(viewModel: viewModel)
-    let analyticsManager: AnalyticsManagerType
+    @Injected private var analyticsManager: AnalyticsManagerType
     
     // MARK: - Initializer
-    init(viewModel: HomeViewModel, scenesFactory: HomeScenesFactory, analyticsManager: AnalyticsManagerType)
+    init(viewModel: HomeViewModel, scenesFactory: HomeScenesFactory)
     {
         self.viewModel = viewModel
         self.scenesFactory = scenesFactory
-        self.analyticsManager = analyticsManager
         super.init()
     }
     
@@ -95,7 +94,7 @@ class HomeViewController: BaseVC {
                 guard let `self` = self else {return}
                 self.analyticsManager.log(event: .mainScreenQrOpen)
                 self.analyticsManager.log(event: .scanQrOpen(fromPage: "main_screen"))
-                let vc = QrCodeScannerVC(analyticsManager: self.analyticsManager)
+                let vc = QrCodeScannerVC()
                 vc.callback = qrCodeScannerHandler(code:)
                 vc.transitioningDelegate = self
                 vc.modalPresentationStyle = .custom
@@ -104,7 +103,7 @@ class HomeViewController: BaseVC {
         case .scanQrCodeWithTap:
             analyticsManager.log(event: .mainScreenQrOpen)
             analyticsManager.log(event: .scanQrOpen(fromPage: "main_screen"))
-            let vc = QrCodeScannerVC(analyticsManager: analyticsManager)
+            let vc = QrCodeScannerVC()
             vc.callback = qrCodeScannerHandler(code:)
             vc.modalPresentationStyle = .fullScreen
             self.present(vc, animated: true, completion: nil)

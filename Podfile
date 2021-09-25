@@ -21,13 +21,11 @@ target 'p2p_wallet' do
   pod 'SwiftLint'
   pod 'Action'
   pod 'KeychainSwift', '~> 19.0'
-  pod 'MBProgressHUD', '~> 1.2.0'
   pod 'TagListView', '~> 1.0'
   pod 'SwiftyUserDefaults', '~> 5.0'
   pod 'UITextView+Placeholder'
   pod 'SubviewAttachingTextView'
   pod 'Charts'
-  pod 'RxBiBinding'
   pod "RxAppState"
   pod 'JazziconSwift'
   pod 'Amplitude', '~> 8.3.0'
@@ -38,6 +36,7 @@ target 'p2p_wallet' do
   # Firebase
   pod 'Firebase/Analytics'
   pod 'Firebase/Crashlytics'
+  pod 'Resolver'
 
   target 'p2p_walletTests' do
     inherit! :search_paths

@@ -4,11 +4,10 @@ PODS:
     - RxSwift (~> 6.0)
   - Alamofire (5.4.3)
   - Amplitude (8.3.0)
-  - ASKSecp256k1 (0.0.6)
   - BECollectionView (0.1.0):
     - PureLayout
     - RxCocoa
-  - BEPureLayout (0.3.0):
+  - BEPureLayout (0.4.0):
     - PureLayout
   - BufferLayoutSwift (0.9.0):
     - Runtime (~> 2.2.2)
@@ -19,9 +18,6 @@ PODS:
     - CocoaLumberjack/Core (= 3.7.2)
   - CocoaLumberjack/Core (3.7.2)
   - CryptoSwift (1.4.1)
-  - Ed25519HDKeySwift (1.2.0):
-    - CryptoSwift
-    - TweetNacl
   - FeeRelayerSwift (1.0.0):
     - RxAlamofire
     - RxSwift
@@ -117,7 +113,6 @@ PODS:
     - RxCocoa
     - RxSwift
   - ListPlaceholder (1.5)
-  - MBProgressHUD (1.2.0)
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
     - nanopb/encode (= 2.30908.0)
@@ -129,6 +124,7 @@ PODS:
   - PusherSwift (10.0.0):
     - NWWebSocket (~> 0.5.2)
     - TweetNacl (~> 1.0.0)
+  - Resolver (1.4.4)
   - Runtime (2.2.2)
   - RxAlamofire (6.1.1):
     - RxAlamofire/Core (= 6.1.1)
@@ -138,9 +134,6 @@ PODS:
   - RxAppState (1.7.1):
     - RxCocoa (~> 6.2)
     - RxSwift (~> 6.2)
-  - RxBiBinding (0.3.5):
-    - RxCocoa (~> 6.0)
-    - RxSwift (~> 6.0)
   - RxBlocking (6.2.0):
     - RxSwift (= 6.2.0)
   - RxCocoa (6.2.0):
@@ -149,13 +142,14 @@ PODS:
   - RxRelay (6.2.0):
     - RxSwift (= 6.2.0)
   - RxSwift (6.2.0)
-  - SolanaSwift (0.3.0):
-    - ASKSecp256k1 (~> 0.0.6)
+  - secp256k1.swift (0.1.4)
+  - SolanaSwift (1.0.0):
     - BufferLayoutSwift (~> 0.9.0)
-    - Ed25519HDKeySwift (~> 1.2.0)
+    - CryptoSwift (~> 1.4.1)
     - RxAlamofire (~> 6.1.1)
     - RxCocoa (~> 6.2.0)
-    - Starscream (~> 4.0.4)
+    - secp256k1.swift (~> 0.1.0)
+    - Starscream (~> 4.0.0)
     - TweetNacl (~> 1.0.2)
   - Starscream (4.0.4)
   - SubviewAttachingTextView (1.5.0)
@@ -185,9 +179,8 @@ DEPENDENCIES:
   - Kingfisher
   - LazySubject (from `LazySubject`)
   - "ListPlaceholder (from `git@github.com:p2p-org/ListPlaceholder.git`, branch `custom_gradient_color`)"
-  - MBProgressHUD (~> 1.2.0)
+  - Resolver
   - RxAppState
-  - RxBiBinding
   - RxBlocking
   - RxCocoa
   - SolanaSwift (from `SolanaSwift`)
@@ -206,12 +199,10 @@ SPEC REPOS:
     - Action
     - Alamofire
     - Amplitude
-    - ASKSecp256k1
     - BufferLayoutSwift
     - Charts
     - CocoaLumberjack
     - CryptoSwift
-    - Ed25519HDKeySwift
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
@@ -224,20 +215,20 @@ SPEC REPOS:
     - JazziconSwift
     - KeychainSwift
     - Kingfisher
-    - MBProgressHUD
     - nanopb
     - NWWebSocket
     - PromisesObjC
     - PureLayout
     - PusherSwift
+    - Resolver
     - Runtime
     - RxAlamofire
     - RxAppState
-    - RxBiBinding
     - RxBlocking
     - RxCocoa
     - RxRelay
     - RxSwift
+    - secp256k1.swift
     - Starscream
     - SubviewAttachingTextView
     - SwiftGen
@@ -281,14 +272,12 @@ SPEC CHECKSUMS:
   Action: 47f1825511907b4fcd79dd7a7db9526c20f78018
   Alamofire: e447a2774a40c996748296fa2c55112fdbbc42f9
   Amplitude: 5627b4574e36d789a75c1656ba39b3278edf1ade
-  ASKSecp256k1: 58eb44dfa57f9d29ac0b02fe5de5a312064517f2
   BECollectionView: 9120725dd693271cef287447e3d1aa844f77535f
-  BEPureLayout: ecb9d52780a665b9ea751b4e82f95df8dc2bc73b
+  BEPureLayout: 5ed6cf8fe9de51476ed68d6ab54c878d0fe1ae27
   BufferLayoutSwift: 94e01c016df92afb017b2f7d4bc434f9915a275a
   Charts: b1e3a1f5a1c9ba5394438ca3b91bd8c9076310af
   CocoaLumberjack: b7e05132ff94f6ae4dfa9d5bce9141893a21d9da
   CryptoSwift: 0bc800a7e6a24c4fc9ebeab97d44b0d5f73a78bd
-  Ed25519HDKeySwift: 68d37145dc6d58ff47033e273829f01648afce58
   FeeRelayerSwift: 0c3d322a5d914c43bc6ab3fd9d15b04bc2c3080b
   Firebase: ff8c73105b90e33e1dc6c8e5445d7adc2ccdc7c1
   FirebaseAnalytics: 96325c1e0acbd2bb805c6a613028b1fe599d6a37
@@ -304,21 +293,21 @@ SPEC CHECKSUMS:
   Kingfisher: 016c8b653a35add51dd34a3aba36b580041acc74
   LazySubject: 9eb19a8524f377efd877f44d9f48c17be7962ebd
   ListPlaceholder: 2d7950014852ee5613d636cf14fd1bb93419e330
-  MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   NWWebSocket: 21f0c73639815da3272862c912275b26102aa80c
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   PureLayout: a4afb3d79dd958564ce33d22c89f407280d8e6a8
   PusherSwift: 264eaceb921a5f8e166f01a2242371179540c7ff
+  Resolver: ec76daf652ac898b1e8a449cd9df3b45b5ce8196
   Runtime: 67741bd196fb4ad821c4d259ccc527bf734d8806
   RxAlamofire: beb75a1c452d0de225651db4903f5d29d034a620
   RxAppState: 9c34f951d4ff8b9034f84016fe766202365bceb2
-  RxBiBinding: c4de0aad6ee668fa73ea6ba423bc0ab5d77b986b
   RxBlocking: 0b29f7d2079109a8de49c411381bed7c33ef1eeb
   RxCocoa: 4baf94bb35f2c0ab31bc0cb9f1900155f646ba42
   RxRelay: e72dbfd157807478401ef1982e1c61c945c94b2f
   RxSwift: d356ab7bee873611322f134c5f9ef379fa183d8f
-  SolanaSwift: 271477c50faba62a605a74637de77f167861ef21
+  secp256k1.swift: a7e7a214f6db6ce5db32cc6b2b45e5c4dd633634
+  SolanaSwift: 0c2ebc2dfa151d76defb6149ff0264851980cf8c
   Starscream: 5178aed56b316f13fa3bc55694e583d35dd414d9
   SubviewAttachingTextView: 4b6e2d07bc4200f1d030887ead5c705200d105d1
   SVGKit: 3c8468aab0026048532a3b27a0c81cdd939f0649
@@ -331,6 +320,6 @@ SPEC CHECKSUMS:
   TweetNacl: 3abf4d1d2082b0114e7a67410e300892448951e6
   "UITextView+Placeholder": d7b0c400921f66523f3a85d74f774512e14f6502
 
-PODFILE CHECKSUM: edc402c475bf14d3b97f8c9517adbe30503760fb
+PODFILE CHECKSUM: 04570ba6d4dba8b961463131fc035e92e3f413c6
 
 COCOAPODS: 1.10.1

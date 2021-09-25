@@ -16,6 +16,7 @@ protocol ReceiveTokenViewModelType {
     var updateLayoutDriver: Driver<Void> {get}
     var receiveSolanaViewModel: ReceiveTokenSolanaViewModelType {get}
     var receiveBitcoinViewModel: ReceiveTokenBitcoinViewModelType {get}
+    var shouldShowChainsSwitcher: Bool {get}
     
     // MARK: - Actions
     func switchToken(_ tokenType: ReceiveToken.TokenType)
@@ -25,7 +26,7 @@ protocol ReceiveTokenViewModelType {
 extension ReceiveToken {
     class ViewModel {
         // MARK: - Dependencies
-        private let analyticsManager: AnalyticsManagerType
+        @Injected private var analyticsManager: AnalyticsManagerType
         
         // MARK: - Properties
         private let disposeBag = DisposeBag()
@@ -40,7 +41,6 @@ extension ReceiveToken {
         init(
             solanaPubkey: SolanaSDK.PublicKey,
             solanaTokenWallet: Wallet? = nil,
-            analyticsManager: AnalyticsManagerType,
             tokensRepository: TokensRepository,
             renVMService: RenVMLockAndMintServiceType,
             isRenBTCWalletCreated: Bool,
@@ -49,20 +49,24 @@ extension ReceiveToken {
             self.receiveSolanaViewModel = ReceiveToken.ReceiveSolanaViewModel(
                 solanaPubkey: solanaPubkey.base58EncodedString,
                 solanaTokenWallet: solanaTokenWallet,
-                analyticsManager: analyticsManager,
                 tokensRepository: tokensRepository,
                 navigationSubject: navigationSubject
             )
             
             self.receiveBitcoinViewModel = ReceiveToken.ReceiveBitcoinViewModel(
                 renVMService: renVMService,
-                analyticsManager: analyticsManager,
                 navigationSubject: navigationSubject,
                 isRenBTCWalletCreated: isRenBTCWalletCreated,
                 associatedTokenAccountHandler: associatedTokenAccountHandler
             )
             
             self.analyticsManager = analyticsManager
+            
+            if let token = solanaTokenWallet?.token,
+               token.isRenBTC
+            {
+                tokenTypeSubject.accept(.btc)
+            }
         }
     }
 }
@@ -95,5 +99,9 @@ extension ReceiveToken.ViewModel: ReceiveTokenViewModelType {
     func copyToClipboard(address: String, logEvent: AnalyticsEvent) {
         UIApplication.shared.copyToClipboard(address, alert: false)
         analyticsManager.log(event: logEvent)
+    }
+    
+    var shouldShowChainsSwitcher: Bool {
+        receiveSolanaViewModel.tokenWallet == nil
     }
 }
