@@ -2,16 +2,10 @@
 platform :ios, '13.0'
 # ignore all warnings from all pods
 inhibit_all_warnings!
-def common_pods
-  pod 'RxCocoa'
-  pod 'SolanaSwift', :path => 'SolanaSwift'
-end
 
 target 'p2p_wallet' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
-  common_pods
-  pod 'BEPureLayout', :path => 'BEPureLayout'
   pod 'LazySubject', :path => 'LazySubject'
   pod 'THPinViewController', :path => 'THPinViewController'
   pod 'BECollectionView', :path => 'BECollectionView'
@@ -20,27 +14,11 @@ target 'p2p_wallet' do
   pod 'SwiftGen', '~> 6.0'
   pod 'SwiftLint'
   pod 'Action'
-  pod 'KeychainSwift', '~> 19.0'
-  pod 'TagListView', '~> 1.0'
-  pod 'SwiftyUserDefaults', '~> 5.0'
-  pod 'UITextView+Placeholder'
-  pod 'SubviewAttachingTextView'
-  pod 'Charts'
-  pod "RxAppState"
   pod 'JazziconSwift'
-  pod 'Amplitude', '~> 8.3.0'
-  pod 'Kingfisher'
-  pod 'SVGKit', :git => 'https://github.com/SVGKit/SVGKit.git', :branch => '3.x'
   pod 'ListPlaceholder', :git => 'git@github.com:p2p-org/ListPlaceholder.git', :branch => 'custom_gradient_color'
-  
-  # Firebase
-  pod 'Firebase/Analytics'
-  pod 'Firebase/Crashlytics'
-  pod 'Resolver'
 
   target 'p2p_walletTests' do
     inherit! :search_paths
-    common_pods
     # Pods for testing
     pod 'RxBlocking'
   end
