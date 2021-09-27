@@ -15,7 +15,7 @@ protocol BackupScenesFactory {
 
 class BackupVC: ProfileVCBase {
     @Injected private var accountStorage: KeychainAccountStorage
-    let authenticationHandler: AuthenticationHandler
+    @Injected private var authenticationHandler: AuthenticationHandler
     let scenesFactory: BackupScenesFactory
     @Injected private var analyticsManager: AnalyticsManagerType
     
@@ -28,8 +28,7 @@ class BackupVC: ProfileVCBase {
     lazy var backupUsingIcloudButton = WLButton.stepButton(enabledColor: .blackButtonBackground.onDarkMode(.h2b2b2b), textColor: .white, label: " " + L10n.backupUsingICloud)
     lazy var backupMannuallyButton = WLButton.stepButton(enabledColor: .f6f6f8.onDarkMode(.h2b2b2b), textColor: .textBlack, label: L10n.backupManually)
     
-    init(authenticationHandler: AuthenticationHandler, scenesFactory: BackupScenesFactory) {
-        self.authenticationHandler = authenticationHandler
+    init(scenesFactory: BackupScenesFactory) {
         self.scenesFactory = scenesFactory
         super.init()
     }
@@ -123,7 +122,11 @@ class BackupVC: ProfileVCBase {
                 isRequired: false,
                 isFullScreen: false,
                 completion: { [weak self] in
-                    self?.accountStorage.saveICloud(phrases: account.joined(separator: " "))
+                    self?.accountStorage.saveToICloud(
+                        account: .init(
+                            phrase: account.joined(separator: " ")
+                        )
+                    )
                     self?.didBackupSubject.accept(true)
                 }
             )

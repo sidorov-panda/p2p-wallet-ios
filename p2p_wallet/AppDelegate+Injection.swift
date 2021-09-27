@@ -12,6 +12,7 @@ extension Resolver: ResolverRegistering {
     public static func registerAllServices() {
         register {KeychainAccountStorage()}
             .implements(SolanaSDKAccountStorage.self)
+            .implements(ICloudStorageType.self)
             .scope(.application)
         register {AnalyticsManager()}
             .implements(AnalyticsManagerType.self)
@@ -65,6 +66,12 @@ extension Resolver: ResolverRegistering {
         // MARK: - ResetPinCodeWithSeedPhrases
         register {ResetPinCodeWithSeedPhrases.ViewModel()}
             .implements(ResetPinCodeWithSeedPhrasesViewModelType.self)
+            .scope(.shared)
+        
+        // MARK: - Main
+        register {MainViewModel()}
+            .implements(MainViewModelType.self)
+            .implements(AuthenticationHandler.self)
             .scope(.shared)
     }
 }
