@@ -98,12 +98,16 @@ extension SendToken {
             viewModel.renBTCInfoDriver.map {$0?.receiveAtLeast}
                 .map {amount -> String? in
                     if let amount = amount {
-                        return L10n.receiveAtLeast(amount.toString(maximumFractionDigits: 9), "renBTC")
+                        return L10n.receiveAtLeast(amount.toString(maximumFractionDigits: 9), "BTC")
                     } else {
                         return nil
                     }
                 }
                 .drive(receiveAtLeastLabel.rx.text)
+                .disposed(by: disposeBag)
+            
+            viewModel.renBTCInfoDriver.map {$0?.network != .bitcoin}
+                .drive(receiveAtLeastLabel.rx.isHidden)
                 .disposed(by: disposeBag)
             
             // address
@@ -172,7 +176,7 @@ extension SendToken {
             viewModel.addressValidationStatusDriver
                 .withLatestFrom(viewModel.renBTCInfoDriver, resultSelector: {($0, $1)})
                 .map { status, renBTCInfo -> String in
-                    if renBTCInfo != nil {
+                    if renBTCInfo?.network == .bitcoin {
                         return L10n.areYouSureThatThisAddressIsValid(L10n.bitcoin)
                     } else {
                         if status == .fetchingError {
