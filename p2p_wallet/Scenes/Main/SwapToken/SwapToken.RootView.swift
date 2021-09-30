@@ -294,7 +294,7 @@ private func generateExchangeRateText(
 
 private func generateSwapButtonText(
     exrate: Loadable<Double?>,
-    fees: Loadable<[FeeType: SwapFee]>,
+    fees: Loadable<[PayingFee]>,
     isSourceWalletEmpty: Bool,
     isDestinationWalletEmpty: Bool,
     isAmountNil: Bool,

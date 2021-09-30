@@ -28,7 +28,7 @@ protocol SwapProviderType {
         destinationWallet: Wallet?,
         lamportsPerSignature: SolanaSDK.Lamports?,
         creatingAccountFee: SolanaSDK.Lamports?
-    ) -> Single<[FeeType: SwapFee]>
+    ) -> Single<[PayingFee]>
     
     func calculateMinOrderSize(
         fromMint: String,
@@ -38,7 +38,7 @@ protocol SwapProviderType {
     /// Maximum amount that user can use for swapping
     func calculateAvailableAmount(
         sourceWallet: Wallet?,
-        fee: SwapFee?
+        fees: [PayingFee]?
     ) -> Double?
     
     /// Estimated amount that user can get after swapping

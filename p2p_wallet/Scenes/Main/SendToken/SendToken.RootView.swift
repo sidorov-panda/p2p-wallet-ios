@@ -114,13 +114,13 @@ extension SendToken {
             
             // fee
             viewModel.feeDriver
-                .drive(feeLabel.rx.loadableText(onLoaded: {[weak self] fee in
+                .drive(feeLabel.rx.loadableText(onLoaded: { fee in
                     let fee = fee ?? 0
                     if fee == 0 {
                         return L10n.free
                     }
                     
-                    return "\(fee.toString(maximumFractionDigits: 9)) \(self?.viewModel.getPayingTokenSymbol() ?? "SOL")"
+                    return "\(fee.toString(maximumFractionDigits: 9)) SOL"
                 }))
                 .disposed(by: disposeBag)
             
@@ -141,6 +141,17 @@ extension SendToken {
             viewModel.isValidDriver
                 .drive(sendButton.rx.isEnabled)
                 .disposed(by: disposeBag)
+            
+            Driver.combineLatest(
+                viewModel.amountDriver.map {($0 == nil || $0 == 0)},
+                viewModel.receiverAddressDriver.map {address in
+                    guard let address = address else {return true}
+                    return address.isEmpty
+                }
+            )
+                .map(generateSendButtonText)
+                .drive(sendButton.rx.title())
+                .disposed(by: disposeBag)
         }
     }
 }
@@ -157,4 +168,19 @@ private extension SendToken.RootView {
     @objc func authenticateAndSend() {
         viewModel.authenticateAndSend()
     }
+}
+
+private func generateSendButtonText(
+    isAmountNil: Bool,
+    isRecipientNil: Bool
+) -> String {
+    if isAmountNil {
+        return L10n.enterTheAmount
+    }
+    
+    if isRecipientNil {
+        return L10n.enterTheRecipientSAddress
+    }
+    
+    return L10n.sendNow
 }

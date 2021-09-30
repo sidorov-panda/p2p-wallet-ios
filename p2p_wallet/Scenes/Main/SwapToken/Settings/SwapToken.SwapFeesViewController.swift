@@ -9,7 +9,7 @@ import Foundation
 import RxCocoa
 
 protocol SwapTokenSwapFeesViewModelType {
-    var feesDriver: Driver<Loadable<[FeeType: SwapFee]>> {get}
+    var feesDriver: Driver<Loadable<[PayingFee]>> {get}
     var sourceWalletDriver: Driver<Wallet?> {get}
     var destinationWalletDriver: Driver<Wallet?> {get}
     var payingTokenDriver: Driver<PayingToken> {get}
@@ -23,10 +23,14 @@ extension SwapToken {
         private var transactionTokensName: String?
         
         // MARK: - Subviews
-        private lazy var liquidityProviderFeeLabel = UILabel(textSize: 15, weight: .medium)
-        private lazy var networkFeeLabel = UILabel(textSize: 15, weight: .medium)
+        private lazy var feeSections = UIStackView(axis: .vertical, spacing: 20, alignment: .fill, distribution: .fill)
+        private lazy var payingTokenSection = UIView.createSectionView(
+            title: L10n.payNetworkFeeWith,
+            contentView: payingTokenLabel,
+            addSeparatorOnTop: false
+        )
+            .onTap(self, action: #selector(navigateToPayNetworkFeeWithVC))
         private lazy var payingTokenLabel = UILabel(textSize: 15, weight: .medium)
-        private var payingTokenSection: UIView?
         
         // MARK: - Initializers
         init(viewModel: SwapTokenSwapFeesViewModelType) {
@@ -41,69 +45,54 @@ extension SwapToken {
         }
         
         override func setUpContent(stackView: UIStackView) {
-            payingTokenSection = .createSectionView(
-                title: L10n.payNetworkFeeWith,
-                contentView: payingTokenLabel,
-                addSeparatorOnTop: false
-            )
-                .onTap(self, action: #selector(navigateToPayNetworkFeeWithVC))
-            
             stackView.addArrangedSubviews {
-                UIView.createSectionView(
-                    title: L10n.liquidityProviderFee,
-                    contentView: liquidityProviderFeeLabel,
-                    rightView: nil,
-                    addSeparatorOnTop: false
-                )
-                UIView.defaultSeparator()
-                UIView.createSectionView(
-                    title: L10n.networkFee,
-                    contentView: networkFeeLabel,
-                    rightView: nil,
-                    addSeparatorOnTop: false
-                )
-                UIView.defaultSeparator()
-                payingTokenSection!
+                feeSections
+                payingTokenSection
             }
         }
         
         override func bind() {
             super.bind()
-            // fee
-            viewModel.feesDriver.map {$0.value?[.liquidityProvider]}
-                .map {fee -> String? in
-                    if let toString = fee?.toString {
-                        return toString()
+            // fees
+            viewModel.feesDriver.map {$0.value}
+                .drive(onNext: {[weak self] fees in
+                    guard let self = self else {return}
+                    self.feeSections.arrangedSubviews.forEach {$0.removeFromSuperview()}
+                    
+                    guard let fees = fees else {return}
+                    
+                    if let fee = fees.totalFee,
+                       let double = fees.totalFee?.lamports.convertToBalance(decimals: fees.totalFee?.token.decimals)
+                    {
+                        let text = double.toString(maximumFractionDigits: 9) + " " + fee.token.symbol
+                        let view = UIView.createSectionView(
+                            title: L10n.totalFees,
+                            contentView: UILabel(text: text, textSize: 15, weight: .medium),
+                            rightView: nil,
+                            addSeparatorOnTop: false
+                        )
+                        self.feeSections.addArrangedSubviews {
+                            view
+                            UIView.defaultSeparator()
+                        }
                     }
                     
-                    guard let amount = fee?.lamports.convertToBalance(decimals: fee?.token.decimals),
-                          let symbol = fee?.token.symbol
-                    else {return nil}
-                    return amount.toString(maximumFractionDigits: 9) + " " + symbol
-                }
-                .drive(liquidityProviderFeeLabel.rx.text)
-                .disposed(by: disposeBag)
-            
-            viewModel.feesDriver.map {$0.value?[.default]}
-                .map {fee -> String? in
-                    if let toString = fee?.toString {
-                        return toString()
+                    let sections = fees.map {fee -> [UIView] in
+                        [
+                            .createSectionView(
+                                title: fee.headerString,
+                                contentView: feeToLabel(fee),
+                                rightView: nil,
+                                addSeparatorOnTop: false
+                            ),
+                            .defaultSeparator()
+                        ]
                     }
-                    
-                    guard let amount = fee?.lamports.convertToBalance(decimals: fee?.token.decimals),
-                          let symbol = fee?.token.symbol
-                    else {return nil}
-                    return amount.toString(maximumFractionDigits: 9) + " " + symbol
-                }
-                .drive(networkFeeLabel.rx.text)
-                .disposed(by: disposeBag)
-            
-            viewModel.feesDriver
-                .drive(onNext: {[weak self] _ in
-                    self?.updatePresentationLayout(animated: true)
+                    self.feeSections.addArrangedSubviews(sections.reduce([], +))
                 })
                 .disposed(by: disposeBag)
             
+            // paying token section
             Driver.combineLatest(
                 viewModel.sourceWalletDriver,
                 viewModel.destinationWalletDriver,
@@ -116,6 +105,13 @@ extension SwapToken {
                     self?.transactionTokensName = symbols.isEmpty ? nil: symbols.joined(separator: "+")
                     
                     self?.setUpPayingTokenLabel(source: source, destination: destination, payingToken: payingToken)
+                })
+                .disposed(by: disposeBag)
+            
+            // update entire layout
+            viewModel.feesDriver
+                .drive(onNext: {[weak self] _ in
+                    self?.updatePresentationLayout(animated: true)
                 })
                 .disposed(by: disposeBag)
         }
@@ -150,7 +146,18 @@ extension SwapToken {
             payingTokenLabel.text = text
             
             let isChoosingDisabled = source?.isNativeSOL == true || destination?.isNativeSOL == true
-            payingTokenSection?.isUserInteractionEnabled = !isChoosingDisabled
+            payingTokenSection.isUserInteractionEnabled = !isChoosingDisabled
         }
     }
+}
+
+private func feeToLabel(_ fee: PayingFee) -> UILabel {
+    if let toString = fee.toString {
+        return UILabel(text: toString(), textSize: 15, weight: .semibold)
+    }
+    
+    let amount = fee.lamports.convertToBalance(decimals: fee.token.decimals)
+    let symbol = fee.token.symbol
+    let string = amount.toString(maximumFractionDigits: 9) + " " + symbol
+    return UILabel(text: string, textSize: 15, weight: .medium)
 }

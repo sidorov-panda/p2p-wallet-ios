@@ -16,6 +16,7 @@ protocol SendTokenViewModelType: WalletDidSelectHandler {
     var currentCurrencyModeDriver: Driver<SendToken.CurrencyMode> {get}
     var useAllBalanceSignal: Signal<Double?> {get}
     var feeDriver: Driver<Loadable<Double>> {get}
+    var amountDriver: Driver<Double?> {get}
     var availableAmountDriver: Driver<Double?> {get}
     var isValidDriver: Driver<Bool> {get}
     var errorDriver: Driver<String?> {get}
@@ -37,7 +38,6 @@ protocol SendTokenViewModelType: WalletDidSelectHandler {
     
     func changeRenBTCNetwork(to network: SendToken.SendRenBTCInfo.Network)
     
-    func getPayingTokenSymbol() -> String
     func isTestNet() -> Bool
     
     func authenticateAndSend()
@@ -314,6 +314,10 @@ extension SendToken.ViewModel: SendTokenViewModelType {
         feeSubject.asDriver()
     }
     
+    var amountDriver: Driver<Double?> {
+        amountSubject.asDriver()
+    }
+    
     var availableAmountDriver: Driver<Double?> {
         Driver.combineLatest(
             currentWalletDriver,
@@ -438,13 +442,6 @@ extension SendToken.ViewModel: SendTokenViewModelType {
     
     func isTestNet() -> Bool {
         renVMBurnAndReleaseService.isTestNet()
-    }
-    
-    func getPayingTokenSymbol() -> String {
-        if renBTCInfoSubject.value?.network == .bitcoin {
-            return "BTC"
-        }
-        return "SOL"
     }
     
     func authenticateAndSend() {
