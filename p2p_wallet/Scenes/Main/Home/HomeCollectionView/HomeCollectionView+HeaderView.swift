@@ -11,8 +11,12 @@ import RxSwift
 extension HomeCollectionView {
     class HeaderView: BaseCollectionReusableView {
         lazy var balancesOverviewView = BalancesOverviewView()
+        private lazy var bannerView = WLBannerView(
+            title: L10n.reserveYourP2PUsernameNow,
+            description: L10n.anyTokenCanBeReceivedUsingUsernameRegardlessOfWhetherItIsInYourWalletsList
+        )
         
-        var disposable: Disposable?
+        private var disposable: Disposable?
         var repository: WalletsRepository? {
             didSet {
                 guard let repository = repository else {return}
@@ -32,10 +36,13 @@ extension HomeCollectionView {
             stackView.arrangedSubviews.forEach {$0.removeFromSuperview()}
             
             // add header
-            stackView.addArrangedSubviews([
+            stackView.addArrangedSubviews {
+                bannerView
+                    .padding(.init(x: .defaultPadding, y: 0))
+                BEStackViewSpacing(16)
                 balancesOverviewView
                     .padding(.init(x: .defaultPadding, y: 0))
-            ])
+            }
             
             stackView.constraintToSuperviewWithAttribute(.top)?.constant = 20
             stackView.constraintToSuperviewWithAttribute(.bottom)?.constant = -30
