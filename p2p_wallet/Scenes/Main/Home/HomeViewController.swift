@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import Action
+import RxCocoa
 
 protocol HomeScenesFactory {
     func makeWalletDetailViewController(pubkey: String, symbol: String) -> WalletDetail.ViewController
@@ -17,7 +18,6 @@ protocol HomeScenesFactory {
     func makeSwapTokenViewController(provider: SwapProvider, fromWallet wallet: Wallet?) -> CustomPresentableViewController
     func makeMyProductsViewController() -> MyProductsViewController
     func makeProfileVC(reserveNameHandler: ReserveNameHandler) -> ProfileVC
-    func makeReserveNameVC(owner: String, handler: ReserveNameHandler) -> ReserveName.ViewController
     func makeTokenSettingsViewController(pubkey: String) -> TokenSettingsViewController
 }
 
@@ -64,6 +64,14 @@ class HomeViewController: BaseVC {
         
         viewModel.navigationDriver
             .drive(onNext: {[weak self] in self?.navigate(to: $0)})
+            .disposed(by: disposeBag)
+        
+        viewModel.nameDidReserveSignal
+            .emit(onNext: { [weak self] in
+                if self?.navigationController?.viewControllers.last is ReserveName.ViewController {
+                    self?.navigationController?.popViewController(animated: true)
+                }
+            })
             .disposed(by: disposeBag)
     }
     
@@ -128,9 +136,14 @@ class HomeViewController: BaseVC {
             self.show(profileVC, sender: nil)
         case .reserveName(let owner):
             let vm = ReserveName.ViewModel(owner: owner, handler: viewModel)
-            vm.goBackOnReserved = true
             let vc = CustomReserveNameVC(viewModel: vm)
             self.present(vc, interactiveDismissalType: .standard)
+            
+            viewModel.nameDidReserveSignal
+                .emit(onNext: { [weak vc] in
+                    vc?.back()
+                })
+                .disposed(by: disposeBag)
         case .walletDetail(let wallet):
             guard let pubkey = wallet.pubkey else {return}
             
@@ -190,7 +203,7 @@ private class CustomReserveNameVC: WLIndicatorModalVC, CustomPresentableViewCont
         separator.autoPinEdgesToSuperviewEdges(with: .zero, excludingEdge: .top)
         return view
     }()
-    private lazy var rootView = ReserveName.RootView(viewModel: viewModel)
+    private lazy var childReserveNameVC = ReserveName.ViewController(viewModel: viewModel)
     
     // MARK: - Initializer
     init(viewModel: ReserveNameViewModelType) {
@@ -201,34 +214,28 @@ private class CustomReserveNameVC: WLIndicatorModalVC, CustomPresentableViewCont
     // MARK: - Methods
     override func setUp() {
         super.setUp()
+        // add header
         containerView.addSubview(headerView)
         headerView.autoPinEdgesToSuperviewEdges(with: .zero, excludingEdge: .bottom)
         
-        containerView.addSubview(rootView)
-        rootView.autoPinEdgesToSuperviewEdges(with: .zero, excludingEdge: .top)
-        rootView.autoPinEdge(.top, to: .bottom, of: headerView)
-    }
-    
-    override func bind() {
-        super.bind()
-        viewModel.isPostingDriver
-            .drive(onNext: {[weak self] isPosting in
-                isPosting ? self?.showIndetermineHud(): self?.hideHud()
-            })
-            .disposed(by: disposeBag)
+        // add childReserveNameVC to container
+        let childContainerView = UIView(forAutoLayout: ())
+        containerView.addSubview(childContainerView)
+        childContainerView.autoPinEdgesToSuperviewEdges(with: .zero, excludingEdge: .top)
+        childContainerView.autoPinEdge(.top, to: .bottom, of: headerView)
         
-        viewModel.didReserveSignal
-            .emit(onNext: { [weak self] in
-                if self?.viewModel.goBackOnReserved == true {
-                    self?.back()
-                }
-            })
-            .disposed(by: disposeBag)
+        // add child vc
+        add(child: childReserveNameVC, to: childContainerView)
+        
+        // relayout ReserveNameVC (replace header)
+        childReserveNameVC.view.subviews.forEach {$0.removeFromSuperview()}
+        childReserveNameVC.view.addSubview(childReserveNameVC.rootView)
+        childReserveNameVC.rootView.autoPinEdgesToSuperviewEdges()
     }
     
     override func calculateFittingHeightForPresentedView(targetWidth: CGFloat) -> CGFloat {
         super.calculateFittingHeightForPresentedView(targetWidth: targetWidth)
             + headerView.fittingHeight(targetWidth: targetWidth)
-            + rootView.fittingHeight(targetWidth: targetWidth)
+            + childReserveNameVC.rootView.fittingHeight(targetWidth: targetWidth)
     }
 }

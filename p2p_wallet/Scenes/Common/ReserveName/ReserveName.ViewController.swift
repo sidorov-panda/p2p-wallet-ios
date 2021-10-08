@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import RxCocoa
 
 extension ReserveName {
     class ViewController: BaseVC {
@@ -15,11 +16,11 @@ extension ReserveName {
         }
         
         // MARK: - Dependencies
-        private var viewModel: ReserveNameViewModelType
+        var viewModel: ReserveNameViewModelType
         
         // MARK: - Properties
         private lazy var navigationBar = WLNavigationBar(forAutoLayout: ())
-        private lazy var rootView = RootView(viewModel: viewModel)
+        lazy var rootView = RootView(viewModel: viewModel)
         
         // MARK: - Initializer
         init(viewModel: ReserveNameViewModelType) {
@@ -51,17 +52,38 @@ extension ReserveName {
         
         override func bind() {
             super.bind()
-            viewModel.isPostingDriver
-                .drive(onNext: {[weak self] isPosting in
-                    isPosting ? self?.showIndetermineHud(): self?.hideHud()
+            viewModel.initializingStateDriver
+                .drive(onNext: { [weak self] loadingState in
+                    switch loadingState {
+                    case .notRequested, .loading:
+                        self?.showIndetermineHud()
+                    case .loaded:
+                        self?.hideHud()
+                    case .error:
+                        self?.hideHud()
+                        self?.showAlert(
+                            title: L10n.error,
+                            message:
+                                L10n.ThereIsAnErrorOccurred.youCanEitherRetryOrReserveNameLaterInSettings,
+                            buttonTitles: [L10n.retry.uppercaseFirst, L10n.doThisLater],
+                            highlightedButtonIndex: 0,
+                            completion: { [weak self] choose in
+                                if choose == 0 {
+                                    self?.viewModel.reload()
+                                }
+                                
+                                if choose == 1 {
+                                    self?.viewModel.skip()
+                                }
+                            }
+                        )
+                    }
                 })
                 .disposed(by: disposeBag)
             
-            viewModel.didReserveSignal
-                .emit(onNext: { [weak self] in
-                    if self?.viewModel.goBackOnReserved == true {
-                        self?.back()
-                    }
+            viewModel.isPostingDriver
+                .drive(onNext: {[weak self] isPosting in
+                    isPosting ? self?.showIndetermineHud(): self?.hideHud()
                 })
                 .disposed(by: disposeBag)
         }

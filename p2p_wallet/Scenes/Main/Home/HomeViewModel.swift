@@ -39,6 +39,10 @@ class HomeViewModel {
     var navigationDriver: Driver<HomeNavigatableScene> {
         navigationSubject.asDriver(onErrorJustReturn: .profile)
     }
+    private let nameDidReserveSubject = PublishRelay<Void>()
+    var nameDidReserveSignal: Signal<Void> {
+        nameDidReserveSubject.asSignal()
+    }
     
     // MARK: - Input
 //    let textFieldInput = BehaviorRelay<String?>(value: nil)
@@ -118,5 +122,6 @@ extension HomeViewModel: ReserveNameHandler {
             Defaults.forceCloseNameServiceBanner = true
             UIApplication.shared.showToast(message: "✅ \(L10n.usernameIsSuccessfullyReserved(name.withNameServiceSuffix()))")
         }
+        nameDidReserveSubject.accept(())
     }
 }
