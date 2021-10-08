@@ -70,5 +70,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Our application needs permission to write photos...</string>
 </dict>
 </plist>
