@@ -55,6 +55,8 @@ extension HomeCollectionView {
             
             stackView.constraintToSuperviewWithAttribute(.top)?.constant = 20
             stackView.constraintToSuperviewWithAttribute(.bottom)?.constant = -30
+            
+            setHideBanner(true)
         }
         
         func setHideBanner(_ isHidden: Bool) {
