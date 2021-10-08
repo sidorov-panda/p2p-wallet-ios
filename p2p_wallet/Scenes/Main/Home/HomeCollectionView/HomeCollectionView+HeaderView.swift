@@ -7,14 +7,23 @@
 
 import Foundation
 import RxSwift
+import Action
 
 extension HomeCollectionView {
     class HeaderView: BaseCollectionReusableView {
         lazy var balancesOverviewView = BalancesOverviewView()
-        private lazy var bannerView = WLBannerView(
-            title: L10n.reserveYourP2PUsernameNow,
-            description: L10n.anyTokenCanBeReceivedUsingUsernameRegardlessOfWhetherItIsInYourWalletsList
-        )
+        private lazy var bannerView: WLBannerView = {
+            let bannerView = WLBannerView(
+                title: L10n.reserveYourP2PUsernameNow,
+                description: L10n.anyTokenCanBeReceivedUsingUsernameRegardlessOfWhetherItIsInYourWalletsList
+            )
+                .onTap(self, action: #selector(bannerDidTouch))
+            bannerView.closeButtonCompletion = {
+                Defaults.forceCloseNameServiceBanner = true
+            }
+            return bannerView
+        }()
+        var reserveNameAction: CocoaAction?
         
         private var disposable: Disposable?
         var repository: WalletsRepository? {
@@ -46,6 +55,14 @@ extension HomeCollectionView {
             
             stackView.constraintToSuperviewWithAttribute(.top)?.constant = 20
             stackView.constraintToSuperviewWithAttribute(.bottom)?.constant = -30
+        }
+        
+        func setHideBanner(_ isHidden: Bool) {
+            bannerView.superview!.isHidden = isHidden
+        }
+        
+        @objc func bannerDidTouch() {
+            reserveNameAction?.execute()
         }
     }
 }

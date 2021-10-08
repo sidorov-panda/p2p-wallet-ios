@@ -20,12 +20,16 @@ enum HomeNavigatableScene {
     case addToken
     case allProducts
     case profile
+    case reserveName(owner: String)
     case walletDetail(wallet: Wallet)
     case walletSettings(wallet: Wallet)
 }
 
 class HomeViewModel {
     // MARK: - Constants
+    
+    // MARK: - Dependencies
+    @Injected var keychainStorage: KeychainAccountStorage
     
     // MARK: - Properties
     let walletsRepository: WalletsRepository
@@ -105,4 +109,13 @@ class HomeViewModel {
 //        
 //    }
     
+}
+
+extension HomeViewModel: ReserveNameHandler {
+    func handleName(_ name: String?) {
+        if let name = name {
+            keychainStorage.save(name: name)
+            Defaults.forceCloseNameServiceBanner = true
+        }
+    }
 }

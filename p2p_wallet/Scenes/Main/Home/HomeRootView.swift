@@ -39,6 +39,7 @@ class HomeRootView: BEView {
     lazy var collectionView: HomeCollectionView = {
         let collectionView = HomeCollectionView(walletsRepository: viewModel.walletsRepository)
         collectionView.delegate = self
+        collectionView.reserveNameAction = viewModel.navigationAction(scene: .reserveName(owner: viewModel.keychainStorage.account?.publicKey.base58EncodedString ?? ""))
         collectionView.walletCellEditAction = viewModel.navigateToWalletSettingsAction()
         collectionView.showHideHiddenWalletsAction = viewModel.showHideHiddenWalletAction()
         return collectionView

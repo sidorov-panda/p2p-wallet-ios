@@ -18,18 +18,5 @@ extension HomeCollectionView {
                 cellType: HomeWalletCell.self
             )
         }
-        
-    //    override func configureHeader(indexPath: IndexPath) -> UICollectionReusableView? {
-    //        let viewModel = self.viewModel as! WalletsListViewModelType
-    //        let headerView = super.configureHeader(indexPath: indexPath) as? HeaderView
-    //        headerView?.balancesOverviewView.setUp(state: viewModel.currentState, data: viewModel.getData(type: Wallet.self))
-    //        return headerView
-    //    }
-        
-        override func dataDidLoad() {
-            super.dataDidLoad()
-            let view = headerView() as? HeaderView
-            view?.balancesOverviewView.setUp(state: viewModel.currentState, data: viewModel.getData(type: Wallet.self))
-        }
     }
 }
