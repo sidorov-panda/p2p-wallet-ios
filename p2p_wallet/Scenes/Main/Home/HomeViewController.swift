@@ -17,7 +17,7 @@ protocol HomeScenesFactory {
     func makeSendTokenViewController(walletPubkey: String?, destinationAddress: String?) -> SendToken.ViewController
     func makeSwapTokenViewController(provider: SwapProvider, fromWallet wallet: Wallet?) -> CustomPresentableViewController
     func makeMyProductsViewController() -> MyProductsViewController
-    func makeProfileVC(reserveNameHandler: ReserveNameHandler) -> ProfileVC
+    func makeSettingsVC(reserveNameHandler: ReserveNameHandler) -> Settings.ViewController
     func makeTokenSettingsViewController(pubkey: String) -> TokenSettingsViewController
 }
 
@@ -129,11 +129,12 @@ class HomeViewController: BaseVC {
         case .allProducts:
             let vc = scenesFactory.makeMyProductsViewController()
             self.present(vc, animated: true, completion: nil)
-        case .profile:
+        case .settings:
             analyticsManager.log(event: .mainScreenSettingsOpen)
             analyticsManager.log(event: .settingsOpen(fromPage: "main_screen"))
-            let profileVC = scenesFactory.makeProfileVC(reserveNameHandler: viewModel)
-            self.show(profileVC, sender: nil)
+            
+            let vc = scenesFactory.makeSettingsVC(reserveNameHandler: viewModel)
+            self.show(vc, sender: nil)
         case .reserveName(let owner):
             let vm = ReserveName.ViewModel(owner: owner, handler: viewModel)
             let vc = CustomReserveNameVC(viewModel: vm)
@@ -231,6 +232,7 @@ private class CustomReserveNameVC: WLIndicatorModalVC, CustomPresentableViewCont
         childReserveNameVC.view.subviews.forEach {$0.removeFromSuperview()}
         childReserveNameVC.view.addSubview(childReserveNameVC.rootView)
         childReserveNameVC.rootView.autoPinEdgesToSuperviewEdges()
+        childReserveNameVC.rootView.hideSkipButtons()
     }
     
     override func calculateFittingHeightForPresentedView(targetWidth: CGFloat) -> CGFloat {

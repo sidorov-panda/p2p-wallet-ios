@@ -227,14 +227,6 @@ class MainContainer {
     }
     
     // MARK: - Profile VCs
-    func makeProfileVC(reserveNameHandler: ReserveNameHandler) -> ProfileVC {
-        ProfileVC(scenesFactory: self, reserveNameHandler: reserveNameHandler)
-    }
-    
-    func makeBackupVC() -> BackupVC {
-        BackupVC(scenesFactory: self)
-    }
-    
     func makeBackupManuallyVC() -> BackupManuallyVC {
         BackupManuallyVC()
     }
@@ -243,30 +235,17 @@ class MainContainer {
         BackupShowPhrasesVC()
     }
     
-    func makeSelectFiatVC() -> SelectFiatVC {
-        SelectFiatVC(responder: self)
-    }
-    
-    func makeSelectNetworkVC() -> SelectNetworkVC {
-        SelectNetworkVC(renVMService: renVMLockAndMintService)
-    }
-    
-    func makeConfigureSecurityVC() -> ConfigureSecurityVC {
-        ConfigureSecurityVC()
-    }
-    
-    func makeSelectLanguageVC() -> SelectLanguageVC {
-        SelectLanguageVC()
-    }
-    
-    func makeSelectAppearanceVC() -> SelectAppearanceVC {
-        SelectAppearanceVC()
+    func makeSettingsVC(reserveNameHandler: ReserveNameHandler) -> Settings.ViewController {
+        let vm = Settings.ViewModel(reserveNameHandler: reserveNameHandler, changeFiatResponder: self, renVMService: renVMLockAndMintService)
+        return .init(viewModel: vm)
     }
     
     // MARK: - Reserve name
     func makeReserveNameVC(owner: String, handler: ReserveNameHandler) -> ReserveName.ViewController {
         let vm = ReserveName.ViewModel(owner: owner, handler: handler)
-        return .init(viewModel: vm)
+        let vc = ReserveName.ViewController(viewModel: vm)
+        vc.rootView.hideSkipButtons()
+        return vc
     }
     
     // MARK: - Token edit
@@ -292,12 +271,10 @@ class MainContainer {
 
 extension MainContainer: TabBarScenesFactory,
                          MyProductsScenesFactory,
-                         ProfileScenesFactory,
                          OrcaSwapScenesFactory,
                          SwapTokenScenesFactory,
                          WalletDetailScenesFactory,
                          SendTokenScenesFactory,
-                         BackupScenesFactory,
                          HomeScenesFactory,
                          ChangeFiatResponder,
                          TokenSettingsScenesFactory,

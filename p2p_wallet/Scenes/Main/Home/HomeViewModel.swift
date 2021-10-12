@@ -19,7 +19,7 @@ enum HomeNavigatableScene {
     case swapToken
     case addToken
     case allProducts
-    case profile
+    case settings
     case reserveName(owner: String)
     case walletDetail(wallet: Wallet)
     case walletSettings(wallet: Wallet)
@@ -37,7 +37,7 @@ class HomeViewModel {
     // MARK: - Subjects
     private let navigationSubject = PublishSubject<HomeNavigatableScene>()
     var navigationDriver: Driver<HomeNavigatableScene> {
-        navigationSubject.asDriver(onErrorJustReturn: .profile)
+        navigationSubject.asDriver(onErrorJustReturn: .settings)
     }
     private let nameDidReserveSubject = PublishRelay<Void>()
     var nameDidReserveSignal: Signal<Void> {
@@ -76,7 +76,7 @@ class HomeViewModel {
     }
     
     @objc func showSettings() {
-        navigationSubject.onNext(.profile)
+        navigationSubject.onNext(.settings)
     }
     
     @objc func buyToken() {
