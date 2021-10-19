@@ -1,40 +1,42 @@
 //
-//  OrcaSwap.ViewController.swift
+//  OrcaSwapV2.ViewController.swift
 //  p2p_wallet
 //
-//  Created by Chung Tran on 03/06/2021.
+//  Created by Chung Tran on 15/10/2021.
 //
 
 import Foundation
 import UIKit
 import RxSwift
 
-protocol OrcaSwapScenesFactory {
+protocol OrcaSwapV2ScenesFactory {
     func makeChooseWalletViewController(customFilter: ((Wallet) -> Bool)?, showOtherWallets: Bool, handler: WalletDidSelectHandler) -> ChooseWallet.ViewController
     func makeProcessTransactionViewController(transactionType: ProcessTransaction.TransactionType, request: Single<ProcessTransactionResponseType>) -> ProcessTransaction.ViewController
 }
 
-extension OrcaSwap {
+extension OrcaSwapV2 {
     class ViewController: WLIndicatorModalVC, CustomPresentableViewController {
         // MARK: - Properties
         var transitionManager: UIViewControllerTransitioningDelegate?
-        let viewModel: ViewModel
-        let scenesFactory: OrcaSwapScenesFactory
+        let viewModel: OrcaSwapV2ViewModelType
+        let scenesFactory: OrcaSwapV2ScenesFactory
         
+        // MARK: - Subviews
         lazy var headerView = UIStackView(axis: .horizontal, spacing: 14, alignment: .center, distribution: .fill, arrangedSubviews: [
             UIImageView(width: 24, height: 24, image: .walletSend, tintColor: .white)
                 .padding(.init(all: 6), backgroundColor: .h5887ff, cornerRadius: 12),
             UILabel(text: L10n.swap, textSize: 17, weight: .semibold),
             UIImageView(width: 36, height: 36, image: .slippageSettings, tintColor: .iconSecondary)
-                .onTap(viewModel, action: #selector(ViewModel.showSettings))
+                .onTap(self, action: #selector(showSettings))
         ])
             .padding(.init(all: 20))
         lazy var rootView = RootView(viewModel: viewModel)
         
         // MARK: - Initializer
-        init(viewModel: ViewModel,
-             scenesFactory: OrcaSwapScenesFactory)
-        {
+        init(
+            viewModel: OrcaSwapV2ViewModelType,
+            scenesFactory: OrcaSwapV2ScenesFactory
+        ) {
             self.viewModel = viewModel
             self.scenesFactory = scenesFactory
             super.init()
@@ -56,22 +58,11 @@ extension OrcaSwap {
         
         override func bind() {
             super.bind()
-            viewModel.output.navigationScene
+            viewModel.navigationDriver
                 .drive(onNext: {[weak self] in self?.navigate(to: $0)})
                 .disposed(by: disposeBag)
             
-            viewModel.output.isLoading
-                .drive(onNext: {[weak self] isLoading in
-                    if isLoading {
-                        self?.showIndetermineHud(nil)
-                    } else {
-                        self?.hideHud()
-                    }
-                })
-                .disposed(by: disposeBag)
-            
-            viewModel.output.pool.map {$0 == nil}
-                .distinctUntilChanged()
+            viewModel.isTokenPairValidDriver
                 .drive(onNext: {[weak self] _ in
                     self?.updatePresentationLayout(animated: true)
                 })
@@ -106,8 +97,7 @@ extension OrcaSwap {
             case .chooseSlippage:
                 let vc = SlippageSettingsViewController()
                 vc.completion = {[weak self] slippage in
-                    Defaults.slippage = slippage / 100
-                    self?.viewModel.input.slippage.accept(slippage / 100)
+                    self?.viewModel.changeSlippage(to: slippage / 100)
                 }
                 present(SettingsNavigationController(rootViewController: vc), interactiveDismissalType: .standard)
             case .swapFees:
@@ -119,6 +109,11 @@ extension OrcaSwap {
             default:
                 break
             }
+        }
+        
+        // MARK: - Actions
+        @objc func showSettings() {
+            viewModel.navigate(to: .settings)
         }
         
         // MARK: - Transitions
