@@ -2509,7 +2509,6 @@
 				BCE77E6326536817000B68BB /* DerivableAccounts.ViewController.swift in Sources */,
 				BC7B2C7125E384F700833656 /* CreateSecurityKeys.RootView.swift in Sources */,
 				BCAD1097270411E00098C697 /* BuyToken.swift in Sources */,
-				BC5A9734260C6EA0009674C4 /* HomeHiddenWalletsSection.swift in Sources */,
 				BCB2231925412AF8002D997F /* AppDelegate.swift in Sources */,
 				BCBE149E25EF3D110014BCE5 /* HomeViewModel.swift in Sources */,
 				BC2297912700A274003F7118 /* RestoreICloud.swift in Sources */,
@@ -2608,7 +2607,6 @@
 				BC15EEF026FDD04600F30605 /* DerivableAccounts.swift in Sources */,
 				BC6EE7C5254BBEC000FE1025 /* Onboarding.EnableNotificationsVC.swift in Sources */,
 				BCD5E7962551332200F51299 /* DefiCell.swift in Sources */,
-				BC5A9739260C6F47009674C4 /* HiddenWalletsSection+SupplementaryViews.swift in Sources */,
 				BC2297982700A578003F7118 /* RestoreICloud.Cell.swift in Sources */,
 				BC105136258B2A2A00398EA2 /* CreateWallet.TermsAndConditionsVC.swift in Sources */,
 				BC7B2C7025E384F700833656 /* CreateSecurityKeys.ViewModel.swift in Sources */,
@@ -2933,7 +2931,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -2978,7 +2976,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
