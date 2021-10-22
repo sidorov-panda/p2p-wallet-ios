@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		123FAB5940E0D4B8471D53F2 /* Pods_p2p_wallet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 653ADBB4458A354579AED1F0 /* Pods_p2p_wallet.framework */; };
+		846993CA42DD22FB3BA39BB1 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84699683F51C51791FD590A0 /* Utils.swift */; };
+		8469949E8213E3F341DA2668 /* MoonpayProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84699587C4376EAA8208663D /* MoonpayProvider.swift */; };
+		846996337A75FF7A91B26EEE /* BuyTokenWidgetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84699D9AB33F93112713FF93 /* BuyTokenWidgetViewController.swift */; };
+		8469999E0EBB5974E6962119 /* BuyProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469967326CA93BB243D75A9 /* BuyProvider.swift */; };
+		84699B6058901C761662F138 /* TransakProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84699C355CE538F8E06A9A33 /* TransakProvider.swift */; };
 		90EF20D40E7E55EE92803B31 /* Pods_p2p_wallet_p2p_walletUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 737429C7857F21D93FBEE72A /* Pods_p2p_wallet_p2p_walletUITests.framework */; };
 		BC036C162692C070005C1BEC /* Collection+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC036C152692C070005C1BEC /* Collection+Extensions.swift */; };
 		BC036C1B269449A7005C1BEC /* AccountNotificationsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC036C1A269449A7005C1BEC /* AccountNotificationsRepository.swift */; };
@@ -407,6 +412,11 @@
 		7053CD2D5518767674E98C06 /* Pods-p2p wallet.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-p2p wallet.release.xcconfig"; path = "Target Support Files/Pods-p2p wallet/Pods-p2p wallet.release.xcconfig"; sourceTree = "<group>"; };
 		737429C7857F21D93FBEE72A /* Pods_p2p_wallet_p2p_walletUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_p2p_wallet_p2p_walletUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EF7143B121F6324037B556D /* Pods-p2p wallet-p2p walletUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-p2p wallet-p2p walletUITests.debug.xcconfig"; path = "Target Support Files/Pods-p2p wallet-p2p walletUITests/Pods-p2p wallet-p2p walletUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		84699587C4376EAA8208663D /* MoonpayProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoonpayProvider.swift; sourceTree = "<group>"; };
+		8469967326CA93BB243D75A9 /* BuyProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyProvider.swift; sourceTree = "<group>"; };
+		84699683F51C51791FD590A0 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		84699C355CE538F8E06A9A33 /* TransakProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransakProvider.swift; sourceTree = "<group>"; };
+		84699D9AB33F93112713FF93 /* BuyTokenWidgetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyTokenWidgetViewController.swift; sourceTree = "<group>"; };
 		8EA884C9D04024132EED10F8 /* Pods-p2p wallet-p2p walletUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-p2p wallet-p2p walletUITests.release.xcconfig"; path = "Target Support Files/Pods-p2p wallet-p2p walletUITests/Pods-p2p wallet-p2p walletUITests.release.xcconfig"; sourceTree = "<group>"; };
 		A342CCD45E7CDE0BA60EFBB2 /* Pods_p2p_walletTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_p2p_walletTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB6790432D1A5F53BBDB3162 /* Pods-p2p_wallet.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-p2p_wallet.release.xcconfig"; path = "Target Support Files/Pods-p2p_wallet/Pods-p2p_wallet.release.xcconfig"; sourceTree = "<group>"; };
@@ -860,6 +870,17 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		84699C98681FF7B583A45CA9 /* BuyProvider */ = {
+			isa = PBXGroup;
+			children = (
+				84699683F51C51791FD590A0 /* Utils.swift */,
+				84699C355CE538F8E06A9A33 /* TransakProvider.swift */,
+				84699587C4376EAA8208663D /* MoonpayProvider.swift */,
+				8469967326CA93BB243D75A9 /* BuyProvider.swift */,
+			);
+			path = BuyProvider;
+			sourceTree = "<group>";
+		};
 		BC0378F425FB536C00D10EAE /* MyProducts */ = {
 			isa = PBXGroup;
 			children = (
@@ -1072,6 +1093,48 @@
 			path = "SerumSwap(Unstable)";
 			sourceTree = "<group>";
 		};
+		BC4B9EC927231035005B9ECA /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				BC6EE771254AEEB300FE1025 /* Error+Extensions.swift */,
+				BC65E9E22542BE43005F50CE /* String+Extensions.swift */,
+				BC32A360254A761B002156F0 /* Button+Extensions.swift */,
+				BC2EC1B92553EC7D006EEDA5 /* UIView+Extensions.swift */,
+				BC2EC1842553B326006EEDA5 /* UIColor+Extensions.swift */,
+				BC32A392254A77A9002156F0 /* UIViewController+Extensions.swift */,
+				BC6EE7C9254BBF8900FE1025 /* UIApplication+Extensions.swift */,
+				BCA0CFD1255E4E4000CD0F8D /* UIImageView+Extensions.swift */,
+				BC7BCB7A2562807E0018DECA /* Double+Extensions.swift */,
+				BC03EC92256F59CF00A68D18 /* LABiometryType+Extensions.swift */,
+				BC460AC3257A46940035F6AA /* BehaviorRelay+Extensions.swift */,
+				BC75339B257F2953007A00D9 /* Date+Extensions.swift */,
+				BC11C9C125908F3700E399A9 /* CGFloat+Extensions.swift */,
+				BC11CA112591DE8800E399A9 /* NSMutableAttributedString+Extensions.swift */,
+				BCA9941E25AE93D5005BD8FB /* Fonts+Generated.swift */,
+				BC123E7E25B181B60043178E /* NSObject+Extensions.swift */,
+				BC0E7DCB25B17AB2009AD08B /* Bundle+Extensions.swift */,
+				BC123E8325B181D80043178E /* Locale+Extensions.swift */,
+				BCA93F8025E883A50081DDF6 /* Array+Extensions.swift */,
+				BC699AC925FB114D00F57209 /* UINavigationController+Extensions.swift */,
+				BC65E27E2620341B00E436C7 /* SolanaSDK.ParsedTransaction+Extensions.swift */,
+				BC18CA8426318F120054E624 /* SolanaSDK.Wallet+Extensions.swift */,
+				BC18CA89263265680054E624 /* SolanaSDK.Token+Extensions.swift */,
+				BC18CAA2263272D70054E624 /* SolanaSDK.WrappingToken+Extensions.swift */,
+				BC6342E0268B2C72005723FC /* SolanaSDK.ParsedTransaction.Status+Extensions.swift */,
+				BC460767266F4B3200A12E07 /* ObservableType+Extensions.swift */,
+				BCDCAE1C267C69D1001ED7B4 /* UIUserInterfaceStyle+Extensions.swift */,
+				BC036C152692C070005C1BEC /* Collection+Extensions.swift */,
+				BC2F8F0B269D3D200048009D /* UIScrollView+Extensions.swift */,
+				BCC1F206269E96A1003DD648 /* SolanaSDK.DerivablePath+Extensions.swift */,
+				BC4B9EC4271A791A005B9ECA /* SolanaSDK+Extensions.swift */,
+				BCC1F211269ED30A003DD648 /* PrimitiveSequence+Extensions.swift */,
+				BC423D8B26E0D6A0000F6318 /* SolanaSDK.Socket+Extensions.swift */,
+				BC185EFB26E4BF3300280FE6 /* UIFont+Extensions.swift */,
+				BC3AB76727021E180096E4D8 /* NSRegularExpression+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		BC5257CD25CBA6A60076317E /* PriceAPIs */ = {
 			isa = PBXGroup;
 			children = (
@@ -1249,19 +1312,6 @@
 			path = TransactionInfo;
 			sourceTree = "<group>";
 		};
-		BC65E9B72542B983005F50CE /* Base */ = {
-			isa = PBXGroup;
-			children = (
-				BCEE522B2626D3F900271AB9 /* Views */,
-				BC1ABC37255BD0B8002FCE65 /* ViewModels */,
-				BCB58370255D28E100B10F65 /* ViewControllers */,
-				BCE04C5D268D8FFB00CE131A /* Transitions */,
-				BC2EC1C12553ED1B006EEDA5 /* UIPresentationControllers */,
-				BCD83E7D25677673006DD29F /* UIViewControllerAnimatedTransitioning */,
-			);
-			path = Base;
-			sourceTree = "<group>";
-		};
 		BC65E9D52542BD1F005F50CE /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
@@ -1309,6 +1359,8 @@
 		BC753397257F28A8007A00D9 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				BCEA06BD2542FD3E0006E4C3 /* Asset+Generated.swift */,
+				BCEA06C2254301A70006E4C3 /* Strings+Generated.swift */,
 				BCA9945125AE94D7005BD8FB /* Fonts */,
 				BC6EE7E6254BD30600FE1025 /* p2p_wallet.entitlements */,
 				BCB2232125412AF8002D997F /* Assets.xcassets */,
@@ -1431,44 +1483,12 @@
 		BC9DFA152541F777009DB93E /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
-				BC65E9B72542B983005F50CE /* Base */,
-				BCEA06BD2542FD3E0006E4C3 /* Asset+Generated.swift */,
-				BC6EE771254AEEB300FE1025 /* Error+Extensions.swift */,
-				BCEA06C2254301A70006E4C3 /* Strings+Generated.swift */,
-				BC65E9E22542BE43005F50CE /* String+Extensions.swift */,
-				BC32A360254A761B002156F0 /* Button+Extensions.swift */,
-				BC2EC1B92553EC7D006EEDA5 /* UIView+Extensions.swift */,
-				BC2EC1842553B326006EEDA5 /* UIColor+Extensions.swift */,
-				BC32A392254A77A9002156F0 /* UIViewController+Extensions.swift */,
-				BC6EE7C9254BBF8900FE1025 /* UIApplication+Extensions.swift */,
-				BCA0CFD1255E4E4000CD0F8D /* UIImageView+Extensions.swift */,
-				BC7BCB7A2562807E0018DECA /* Double+Extensions.swift */,
-				BC03EC92256F59CF00A68D18 /* LABiometryType+Extensions.swift */,
-				BC460AC3257A46940035F6AA /* BehaviorRelay+Extensions.swift */,
-				BC75339B257F2953007A00D9 /* Date+Extensions.swift */,
-				BC11C9C125908F3700E399A9 /* CGFloat+Extensions.swift */,
-				BC11CA112591DE8800E399A9 /* NSMutableAttributedString+Extensions.swift */,
-				BCA9941E25AE93D5005BD8FB /* Fonts+Generated.swift */,
-				BC123E7E25B181B60043178E /* NSObject+Extensions.swift */,
-				BC0E7DCB25B17AB2009AD08B /* Bundle+Extensions.swift */,
-				BC123E8325B181D80043178E /* Locale+Extensions.swift */,
-				BCA93F8025E883A50081DDF6 /* Array+Extensions.swift */,
-				BC699AC925FB114D00F57209 /* UINavigationController+Extensions.swift */,
-				BC65E27E2620341B00E436C7 /* SolanaSDK.ParsedTransaction+Extensions.swift */,
-				BC18CA8426318F120054E624 /* SolanaSDK.Wallet+Extensions.swift */,
-				BC18CA89263265680054E624 /* SolanaSDK.Token+Extensions.swift */,
-				BC18CAA2263272D70054E624 /* SolanaSDK.WrappingToken+Extensions.swift */,
-				BC6342E0268B2C72005723FC /* SolanaSDK.ParsedTransaction.Status+Extensions.swift */,
-				BC460767266F4B3200A12E07 /* ObservableType+Extensions.swift */,
-				BCDCAE1C267C69D1001ED7B4 /* UIUserInterfaceStyle+Extensions.swift */,
-				BC036C152692C070005C1BEC /* Collection+Extensions.swift */,
-				BC2F8F0B269D3D200048009D /* UIScrollView+Extensions.swift */,
-				BCC1F206269E96A1003DD648 /* SolanaSDK.DerivablePath+Extensions.swift */,
-				BC4B9EC4271A791A005B9ECA /* SolanaSDK+Extensions.swift */,
-				BCC1F211269ED30A003DD648 /* PrimitiveSequence+Extensions.swift */,
-				BC423D8B26E0D6A0000F6318 /* SolanaSDK.Socket+Extensions.swift */,
-				BC185EFB26E4BF3300280FE6 /* UIFont+Extensions.swift */,
-				BC3AB76727021E180096E4D8 /* NSRegularExpression+Extensions.swift */,
+				BCEE522B2626D3F900271AB9 /* Views */,
+				BC1ABC37255BD0B8002FCE65 /* ViewModels */,
+				BCB58370255D28E100B10F65 /* ViewControllers */,
+				BCE04C5D268D8FFB00CE131A /* Transitions */,
+				BC2EC1C12553ED1B006EEDA5 /* UIPresentationControllers */,
+				BCD83E7D25677673006DD29F /* UIViewControllerAnimatedTransitioning */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -1553,6 +1573,7 @@
 			children = (
 				BCAD1093270411E00098C697 /* BuyToken.swift */,
 				BC4B9E782713F96C005B9ECA /* BuyToken.ViewController.swift */,
+				84699D9AB33F93112713FF93 /* BuyTokenWidgetViewController.swift */,
 			);
 			path = BuyToken;
 			sourceTree = "<group>";
@@ -1588,6 +1609,7 @@
 				BC7A8EB1255BCE360023C918 /* Models */,
 				BCB22370254137C2002D997F /* Services */,
 				BC9DFA152541F777009DB93E /* UIKit */,
+				BC4B9EC927231035005B9ECA /* Extensions */,
 				BC753397257F28A8007A00D9 /* Resources */,
 			);
 			path = p2p_wallet;
@@ -1627,6 +1649,7 @@
 				BC63110926D78AC300516C38 /* SwapProvider */,
 				BCCF23C126FAE76400D08724 /* RenVM */,
 				BC6FEDA2270D57D1002B6255 /* NameService.swift */,
+				84699C98681FF7B583A45CA9 /* BuyProvider */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -2690,6 +2713,11 @@
 				BC4B9E7D2713FCFB005B9ECA /* AnalyticsManager.swift in Sources */,
 				BC2297962700A320003F7118 /* RestoreICloud.AccountsListViewModel.swift in Sources */,
 				BC185EFA26E3B81F00280FE6 /* LoadableRelay.swift in Sources */,
+				846993CA42DD22FB3BA39BB1 /* Utils.swift in Sources */,
+				84699B6058901C761662F138 /* TransakProvider.swift in Sources */,
+				8469949E8213E3F341DA2668 /* MoonpayProvider.swift in Sources */,
+				8469999E0EBB5974E6962119 /* BuyProvider.swift in Sources */,
+				846996337A75FF7A91B26EEE /* BuyTokenWidgetViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
