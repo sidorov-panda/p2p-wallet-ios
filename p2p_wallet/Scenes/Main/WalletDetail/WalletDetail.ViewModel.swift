@@ -10,12 +10,12 @@ import RxSwift
 import RxCocoa
 
 protocol WalletDetailViewModelType {
-    var navigatableSceneDriver: Driver<WalletDetail.NavigatableScene?> {get}
-    var walletDriver: Driver<Wallet?> {get}
-    var nativePubkey: Driver<String?> {get}
-    var graphViewModel: WalletGraphViewModel {get}
-    var transactionsViewModel: TransactionsViewModel {get}
-    var canBuyToken: Bool {get}
+    var navigatableSceneDriver: Driver<WalletDetail.NavigatableScene?> { get }
+    var walletDriver: Driver<Wallet?> { get }
+    var nativePubkey: Driver<String?> { get }
+    var graphViewModel: WalletGraphViewModel { get }
+    var transactionsViewModel: TransactionsViewModel { get }
+    var canBuyToken: Bool { get }
     
     func renameWallet(to newName: String)
     func showWalletSettings()
@@ -97,17 +97,17 @@ extension WalletDetail {
         private func bindSubjectsIntoSubjects() {
             walletsRepository
                 .dataObservable
-                .map {$0?.first(where: {$0.pubkey == self.pubkey})}
-                .filter {$0 != nil}
+                .map { $0?.first(where: { $0.pubkey == self.pubkey }) }
+                .filter { $0 != nil }
                 .bind(to: walletSubject)
                 .disposed(by: disposeBag)
             
             walletSubject
-                .filter {$0 != nil}
-                .map {$0!.token.symbol}
+                .filter { $0 != nil }
+                .map { $0!.token.symbol }
                 .take(1)
                 .asSingle()
-                .subscribe(onSuccess: {[weak self] ticker in
+                .subscribe(onSuccess: { [weak self] ticker in
                     self?.analyticsManager.log(event: .tokenDetailsOpen(tokenTicker: ticker))
                 })
                 .disposed(by: disposeBag)
@@ -126,19 +126,19 @@ extension WalletDetail.ViewModel: WalletDetailViewModelType {
     
     var nativePubkey: Driver<String?> {
         walletsRepository.dataObservable
-            .map {$0?.first(where: {$0.isNativeSOL})}
-            .map {$0?.pubkey}
+            .map { $0?.first(where: { $0.isNativeSOL }) }
+            .map { $0?.pubkey }
             .asDriver(onErrorJustReturn: nil)
     }
     
     // MARK: - Actions
     func showWalletSettings() {
-        guard let pubkey = walletSubject.value?.pubkey else {return}
+        guard let pubkey = walletSubject.value?.pubkey else { return }
         navigatableSceneSubject.accept(.settings(walletPubkey: pubkey))
     }
     
     func renameWallet(to newName: String) {
-        guard let wallet = walletSubject.value else {return}
+        guard let wallet = walletSubject.value else { return }
         
         var newName = newName
         if newName.isEmpty {
@@ -150,7 +150,7 @@ extension WalletDetail.ViewModel: WalletDetailViewModelType {
     }
     
     func sendTokens() {
-        guard let wallet = walletSubject.value else {return}
+        guard let wallet = walletSubject.value else { return }
         analyticsManager.log(event: .tokenDetailsSendClick)
         analyticsManager.log(event: .sendOpen(fromPage: "token_details"))
         navigatableSceneSubject.accept(.send(wallet: wallet))
@@ -169,15 +169,15 @@ extension WalletDetail.ViewModel: WalletDetailViewModelType {
     }
     
     func receiveTokens() {
-        guard let pubkey = walletSubject.value?.pubkey else {return}
+        guard let wallet = walletSubject.value else { return }
         analyticsManager.log(event: .tokenDetailQrClick)
         analyticsManager.log(event: .tokenDetailsReceiveClick)
         analyticsManager.log(event: .receiveOpen(fromPage: "token_details"))
-        navigatableSceneSubject.accept(.receive(walletPubkey: pubkey))
+        navigatableSceneSubject.accept(.walletAddress(wallet: wallet))
     }
     
     func swapTokens() {
-        guard let wallet = walletSubject.value else {return}
+        guard let wallet = walletSubject.value else { return }
         analyticsManager.log(event: .tokenDetailsSwapClick)
         analyticsManager.log(event: .swapOpen(fromPage: "token_details"))
         navigatableSceneSubject.accept(.swap(fromWallet: wallet))

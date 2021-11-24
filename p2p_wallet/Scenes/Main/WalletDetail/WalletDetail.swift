@@ -13,6 +13,7 @@ struct WalletDetail {
         case buy(tokens: BuyToken.CryptoCurrency)
         case send(wallet: Wallet)
         case receive(walletPubkey: String)
+        case walletAddress(wallet: Wallet)
         case swap(fromWallet: Wallet)
         case transactionInfo(_ transaction: SolanaSDK.ParsedTransaction)
     }

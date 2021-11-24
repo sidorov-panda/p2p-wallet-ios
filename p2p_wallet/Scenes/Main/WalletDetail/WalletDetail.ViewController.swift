@@ -12,6 +12,7 @@ import UIKit
 
 protocol WalletDetailScenesFactory {
     func makeBuyTokenViewController(token: BuyToken.CryptoCurrency) throws -> UIViewController
+    func makeWalletAddressViewController(wallet: Wallet) -> WalletAddress.ViewController
     func makeReceiveTokenViewController(tokenWalletPubkey: String?) -> ReceiveToken.ViewController?
     func makeSendTokenViewController(walletPubkey: String?, destinationAddress: String?) -> SendToken.ViewController
     func makeSwapTokenViewController(provider: SwapProvider, fromWallet wallet: Wallet?) -> CustomPresentableViewController
@@ -102,12 +103,12 @@ extension WalletDetail {
         
         override func bind() {
             super.bind()
-            viewModel.walletDriver.map {$0?.name}
+            viewModel.walletDriver.map { $0?.name }
                 .drive(navigationBar.titleLabel.rx.text)
                 .disposed(by: disposeBag)
             
             viewModel.navigatableSceneDriver
-                .drive(onNext: {[weak self] in self?.navigate(to: $0)})
+                .drive(onNext: { [weak self] in self?.navigate(to: $0) })
                 .disposed(by: disposeBag)
         }
         
@@ -115,8 +116,7 @@ extension WalletDetail {
             super.pageViewController(pageViewController, didFinishAnimating: finished, previousViewControllers: previousViewControllers, transitionCompleted: completed)
             if let vc = pageVC.viewControllers?.first,
                let index = viewControllers.firstIndex(of: vc),
-               segmentedControl.selectedSegmentIndex != index
-            {
+               segmentedControl.selectedSegmentIndex != index {
                 segmentedControl.selectedSegmentIndex = index
             }
         }
@@ -139,10 +139,12 @@ extension WalletDetail {
                 let vc = scenesFactory.makeSendTokenViewController(walletPubkey: wallet.pubkey, destinationAddress: nil)
                 present(vc, interactiveDismissalType: .standard, completion: nil)
             case .receive(let pubkey):
-                if let vc = scenesFactory.makeReceiveTokenViewController(tokenWalletPubkey: pubkey)
-                {
+                if let vc = scenesFactory.makeReceiveTokenViewController(tokenWalletPubkey: pubkey) {
                     present(vc, interactiveDismissalType: .standard, completion: nil)
                 }
+            case .walletAddress(let wallet):
+                let vc = scenesFactory.makeWalletAddressViewController(wallet: wallet)
+                present(vc, animated: true)
             case .swap(let wallet):
                 let vc = scenesFactory.makeSwapTokenViewController(provider: .orca, fromWallet: wallet)
                 present(vc, interactiveDismissalType: .standard, completion: nil)

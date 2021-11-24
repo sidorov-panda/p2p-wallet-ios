@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import RxSwift
 
 extension ReceiveToken {
     class QrCodeView: BEView {
+        
         private let size: CGFloat
         private let coinLogoSize: CGFloat
         
@@ -19,6 +21,7 @@ extension ReceiveToken {
             imageView.layer.borderColor = UIColor.textWhite.cgColor
             imageView.layer.cornerRadius = coinLogoSize / 2
             imageView.layer.masksToBounds = true
+            imageView.layer.magnificationFilter = .nearest
             return imageView
         }()
         
@@ -63,9 +66,15 @@ extension ReceiveToken {
             return self
         }
         
-        static func withFrame(string: String? = nil, token: SolanaSDK.Token? = nil) -> (UIView, QrCodeView) {
+        /// Return view with qr code.
+        ///
+        /// - Parameters:
+        ///   - pubkey: The public key of solana account
+        ///   - token: The token.
+        /// - Returns:
+        static func withFrame(pubkey: String? = nil, token: SolanaSDK.Token? = nil) -> (UIView, QrCodeView) {
             let qrCodeView = QrCodeView(size: 190, coinLogoSize: 32)
-                .with(string: string, token: token)
+                .with(string: pubkey, token: token)
             
             let view = UIImageView(width: 207, height: 207, image: .receiveQrCodeFrame, tintColor: .f6f6f8.onDarkMode(.h8d8d8d))
                 .withCenteredChild(
@@ -89,13 +98,13 @@ extension ReceiveToken {
             }
             
             let data = string.data(using: String.Encoding.ascii)
-
+            
             DispatchQueue.global().async {
                 var image: UIImage?
                 if let filter = CIFilter(name: "CIQRCodeGenerator") {
                     filter.setValue(data, forKey: "inputMessage")
-                    let transform = CGAffineTransform(scaleX: 5, y: 5)
-
+                    let transform = CGAffineTransform(scaleX: 10, y: 10)
+                    
                     if let output = filter.outputImage?.transformed(by: transform) {
                         let qrCode = UIImage(ciImage: output)
                         image = qrCode
@@ -106,6 +115,14 @@ extension ReceiveToken {
                     self.image = image
                 }
             }
+        }
+    }
+}
+
+extension Reactive where Base: ReceiveToken.QrCodeView {
+    var wallet: Binder<Wallet?> {
+        Binder(base) { view, wallet in
+            view.setUp(wallet: wallet)
         }
     }
 }

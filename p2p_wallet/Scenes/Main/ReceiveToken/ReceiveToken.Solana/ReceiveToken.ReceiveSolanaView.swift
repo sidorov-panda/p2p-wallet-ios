@@ -60,7 +60,7 @@ extension ReceiveToken {
                     .padding(.init(x: 20, y: 22.5), cornerRadius: 12)
                     .border(width: 1, color: .defaultBorder)
                 
-                QrCodeView.withFrame(string: viewModel.pubkey, token: viewModel.tokenWallet?.token)
+                QrCodeView.withFrame(pubkey: viewModel.pubkey, token: viewModel.tokenWallet?.token)
                     .0
                     .centeredHorizontallyView
                 

@@ -89,6 +89,11 @@ extension Resolver: ResolverRegistering {
             .implements(CreateSecurityKeysViewModelType.self)
             .scope(.shared)
         
+        // WalletAddress
+        register {WalletAddress.ViewModel()}
+            .implements(WalletAddressViewModelType.self)
+            .scope(.shared)
+        
         // RestoreWallet
         register {RestoreWallet.ViewModel()}
             .implements(RestoreWalletViewModelType.self)

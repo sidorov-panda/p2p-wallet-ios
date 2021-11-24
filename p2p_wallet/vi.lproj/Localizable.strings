@@ -607,3 +607,5 @@
 "By continuing, you agree to wallet's %@" = "Bằng cách tiếp tục, bạn đồng ý với %@ của wallet";
 "History" = "Lịch sử";
 "Show wallet address" = "Hiển thị địa chỉ ví";
+"Solana wallet address" = "Địa chỉ ví Solana";
+"Tap and hold to copy" = "Nhấn và giữ để sao chép";

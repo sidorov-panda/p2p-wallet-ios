@@ -607,3 +607,5 @@
 "By continuing, you agree to wallet's %@" = "En continuant, vous acceptez les %@ du portefeuille";
 "History" = "Histoire";
 "Show wallet address" = "Afficher l'adresse du portefeuille";
+"Solana wallet address" = "Adresse du portefeuille Solana";
+"Tap and hold to copy" = "Appuyez et maintenez pour copier";
