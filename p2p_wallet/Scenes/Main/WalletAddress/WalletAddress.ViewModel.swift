@@ -12,7 +12,6 @@ import SolanaSwift
 
 protocol WalletAddressViewModelType {
     var walletDriver: Driver<Wallet?> { get }
-    var solanaAddressDriver: Driver<String?> { get }
     
     var navigationDriver: Driver<WalletAddress.NavigatableScene?> { get }
     func navigate(to scene: WalletAddress.NavigatableScene)
@@ -40,13 +39,6 @@ extension WalletAddress.ViewModel: WalletAddressViewModelType {
     
     var walletDriver: Driver<Wallet?> {
         walletSubject.asDriver()
-    }
-    
-    var solanaAddressDriver: Driver<String?> {
-        walletSubject.withUnretained(self).flatMap {(owner, wallet) -> Single<String?> in
-            guard let pubKey = wallet?.pubkey else { return .just(nil) }
-            return owner.nameService.getOwnerAddress(pubKey)
-        }.asDriver(onErrorJustReturn: nil)
     }
     
     var navigationDriver: Driver<WalletAddress.NavigatableScene?> {

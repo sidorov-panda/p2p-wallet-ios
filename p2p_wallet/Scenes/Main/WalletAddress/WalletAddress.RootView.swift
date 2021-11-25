@@ -125,7 +125,7 @@ extension WalletAddress {
         private func bind() {
             viewModel.walletDriver.map { wallet in wallet?.name }.drive(navigationBar.titleLabel.rx.text).disposed(by: disposeBag)
             viewModel.walletDriver.map { wallet in wallet?.pubkey }.drive(walletAddressLabel.rx.text).disposed(by: disposeBag)
-            viewModel.solanaAddressDriver.drive(directAddressLabel.rx.text).disposed(by: disposeBag)
+            viewModel.walletDriver.map { wallet in wallet?.owner?.base58EncodedString ?? "" }.drive(directAddressLabel.rx.text).disposed(by: disposeBag)
             viewModel.walletDriver.map { wallet in wallet?.mintAddress }.drive(mintAddressLabel.rx.text).disposed(by: disposeBag)
             viewModel.walletDriver.drive(qrCode.rx.wallet).disposed(by: disposeBag)
         }
