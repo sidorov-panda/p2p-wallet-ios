@@ -47,8 +47,8 @@ extension UIApplication {
             radius: 16,
             offset: .init(width: 0, height: 8),
             opacity: 1,
-            cornerRadius: 12,
-            contentInset: .init(x: 20, y: 10)
+            cornerRadius: 16,
+            contentInset: .init(x: 12, y: 13)
         )
         toast.backgroundColor = backgroundColor
         toast.mainView.alpha = alpha
