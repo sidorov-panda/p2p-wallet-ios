@@ -30,6 +30,42 @@ private extension FeeRelayer.SwapTokensParamsSwapAccount {
     }
 }
 
+private extension FeeRelayerRelaySwapType {
+    func build(
+        bestPoolsPair: OrcaSwap.PoolsPair,
+        transferAuthority: String,
+        amountIn: FeeRelayer.Lamports,
+        minAmountOut: FeeRelayer.Lamports
+    ) throws -> FeeRelayerRelaySwapType {
+        guard !bestPoolsPair.isEmpty,
+              bestPoolsPair.count <= 2
+        else {
+            throw OrcaSwapError.numberOfPoolsIsInvalid
+        }
+        
+        if bestPoolsPair.count == 1 {
+            let pool = bestPoolsPair[0]
+            return FeeRelayer.DirectSwapData(
+                programId: pool.swapProgramId.base58EncodedString,
+                accountPubkey: pool.account,
+                authorityPubkey: pool.authority,
+                transferAuthorityPubkey: transferAuthority,
+                sourcePubkey: pool.tokenAccountA,
+                destinationPubkey: pool.tokenAccountB,
+                poolTokenMintPubkey: pool.poolTokenMint,
+                poolFeeAccountPubkey: pool.feeAccount,
+                amountIn: amountIn,
+                minimumAmountOut: minAmountOut
+            )
+        } else {
+            let pool0 = bestPoolsPair[0]
+            let pool1 = bestPoolsPair[1]
+            
+            
+        }
+    }
+}
+
 extension FeeRelayer: SolanaCustomFeeRelayerProxy {
     public func getFeePayer() -> Single<String> {
         getFeePayerPubkey()

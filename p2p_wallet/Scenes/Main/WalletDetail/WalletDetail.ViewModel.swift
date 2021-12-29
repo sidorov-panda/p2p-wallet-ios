@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import FeeRelayerSwift
 
 protocol WalletDetailViewModelType {
     var navigatableSceneDriver: Driver<WalletDetail.NavigatableScene?> {get}
