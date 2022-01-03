@@ -19,7 +19,7 @@ class TransactionsViewModel: BEListViewModel<SolanaSDK.ParsedTransaction> {
     private let repository: TransactionsRepository
     private let pricesService: PricesServiceType
     private let processingTransactionRepository: ProcessingTransactionsRepository
-    private let feeRelayer: FeeRelayerType
+    private let feeRelayer: FeeRelayerAPIClientType
     private let notificationsRepository: WLNotificationsRepository
     
     // MARK: - Properties
@@ -37,7 +37,7 @@ class TransactionsViewModel: BEListViewModel<SolanaSDK.ParsedTransaction> {
         repository: TransactionsRepository,
         pricesService: PricesServiceType,
         processingTransactionRepository: ProcessingTransactionsRepository,
-        feeRelayer: FeeRelayerType,
+        feeRelayer: FeeRelayerAPIClientType,
         notificationsRepository: WLNotificationsRepository
     ) {
         self.account = account

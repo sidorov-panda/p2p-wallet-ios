@@ -22,6 +22,7 @@ PODS:
   - FeeRelayerSwift (1.0.0):
     - RxAlamofire
     - RxSwift
+    - SolanaSwift
   - Firebase/Analytics (8.5.0):
     - Firebase/Core
   - Firebase/Core (8.5.0):
@@ -270,7 +271,7 @@ SPEC CHECKSUMS:
   CocoaLumberjack: b7e05132ff94f6ae4dfa9d5bce9141893a21d9da
   CryptoSwift: 0bc800a7e6a24c4fc9ebeab97d44b0d5f73a78bd
   Down: b6ba1bc985c9d2f4e15e3b293d2207766fa12612
-  FeeRelayerSwift: 0c3d322a5d914c43bc6ab3fd9d15b04bc2c3080b
+  FeeRelayerSwift: d76391a933d11d3aba6aa0afc349beff363c2f07
   Firebase: ff8c73105b90e33e1dc6c8e5445d7adc2ccdc7c1
   FirebaseAnalytics: 96325c1e0acbd2bb805c6a613028b1fe599d6a37
   FirebaseCore: 1c1ca72483b59b17050f5b4cec4fb748425a3901

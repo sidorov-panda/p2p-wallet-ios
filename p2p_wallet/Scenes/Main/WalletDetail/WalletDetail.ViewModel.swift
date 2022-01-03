@@ -36,7 +36,7 @@ extension WalletDetail {
         private let processingTransactionRepository: ProcessingTransactionsRepository
         private let transactionsRepository: TransactionsRepository
         private let notificationsRepository: WLNotificationsRepository
-        private let feeRelayer: FeeRelayerType
+        private let feeRelayer: FeeRelayerAPIClientType
         private let pubkey: String
         private let symbol: String
         @Injected var analyticsManager: AnalyticsManagerType
@@ -72,7 +72,7 @@ extension WalletDetail {
             processingTransactionRepository: ProcessingTransactionsRepository,
             pricesService: PricesServiceType,
             transactionsRepository: TransactionsRepository,
-            feeRelayer: FeeRelayerType,
+            feeRelayer: FeeRelayerAPIClientType,
             notificationsRepository: WLNotificationsRepository
         ) {
             self.pubkey = pubkey
