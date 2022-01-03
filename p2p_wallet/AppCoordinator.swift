@@ -10,15 +10,19 @@ import UIKit
 import RxSwift
 
 final class AppCoordinator {
+    // MARK: - Dependencies
+    private let storage: AccountStorageType & PincodeStorageType & NameStorageType = Resolver.resolve()
+    private var appEventHandler: AppEventHandlerType = Resolver.resolve()
+    
     // MARK: - Properties
     private let disposeBag = DisposeBag()
     private let window: UIWindow?
-    private let storage: AccountStorageType & PincodeStorageType & NameStorageType = Resolver.resolve()
-    private var appEventHandler: AppEventHandlerType = Resolver.resolve()
+    private var isRestoration: Bool = false
     
     // MARK: - Initializer
     init(window: UIWindow?) {
         self.window = window
+        window?.rootViewController = PlaceholderViewController()
         bind()
     }
     
@@ -36,81 +40,89 @@ final class AppCoordinator {
             .disposed(by: disposeBag)
     }
     
-    func start() {
-        navigateNext(withAuthenticationOnMain: true)
-    }
-    
-    func navigateNext(withAuthenticationOnMain: Bool = false) {
-        // set placeholder vc
-        changeRootViewController(to: PlaceholderViewController())
-        
-        // try to retrieve account from seed
-        // wait 300 ms for process of relacing rootViewController to complete
-        DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: .now() + .milliseconds(300)) { [weak self] in
+    func start(authenticateOnMain: Bool = true) {
+        DispatchQueue.global(qos: .userInteractive).async { [weak self] in
             let account = self?.storage.account
             DispatchQueue.main.async { [weak self] in
+                guard let self = self else {return}
                 if account == nil {
-                    self?.showCreateOrRestoreWalletScene()
-                } else if self?.storage.pinCode == nil ||
+                    self.showCreateOrRestoreWalletScene(completion: nil)
+                } else if self.storage.pinCode == nil ||
                             !Defaults.didSetEnableBiometry ||
                             !Defaults.didSetEnableNotifications
                 {
-                    self?.showOnboardingScene()
+                    self.showOnboardingScene(completion: nil)
                 } else {
-                    self?.showMainScene(withAuthentication: withAuthenticationOnMain)
+                    self.showMainScene(withAuthentication: authenticateOnMain, completion: nil)
                 }
             }
         }
     }
     
     // MARK: - Navigation
-    private func showCreateOrRestoreWalletScene() {
+    private func showCreateOrRestoreWalletScene(completion: (() -> Void)?) {
         let vc = CreateOrRestoreWallet.ViewController()
         let nc = UINavigationController(rootViewController: vc)
-        changeRootViewController(to: nc)
+        changeRootViewController(to: nc, completion: completion)
     }
     
-    private func showOnboardingScene() {
+    private func showOnboardingScene(completion: (() -> Void)?) {
         let vc = Onboarding.ViewController()
-        changeRootViewController(to: vc)
+        changeRootViewController(to: vc, completion: completion)
     }
     
-    private func showMainScene(withAuthentication: Bool) {
+    private func showWelcomeScene(isRestoration: Bool, name: String?, completion: (() -> Void)?) {
+        let vc = WelcomeViewController(isReturned: isRestoration, name: name)
+        changeRootViewController(to: vc, completion: nil)
+    }
+    
+    private func showMainScene(withAuthentication: Bool, completion: (() -> Void)? = nil) {
         // MainViewController
         let vc = MainViewController()
         vc.authenticateWhenAppears = withAuthentication
-        changeRootViewController(to: vc)
+        changeRootViewController(to: vc, completion: completion)
     }
     
     // MARK: - Helpers
-    private func changeRootViewController(to vc: UIViewController) {
+    private func changeRootViewController(to vc: UIViewController, completion: (() -> Void)?) {
         // TODO: - Animation
-        window?.rootViewController = vc
+        window?.rootViewController = PlaceholderViewController()
+        
+        // wait 300 ms for process of relacing rootViewController to complete
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300)) { [weak self] in
+            self?.window?.rootViewController = vc
+            completion?()
+        }
     }
 }
 
 extension AppCoordinator: AppEventHandlerDelegate {
     func createWalletDidComplete() {
-        navigateNext()
+        isRestoration = false
+        showOnboardingScene(completion: nil)
     }
     
     func restoreWalletDidComplete() {
-        navigateNext()
+        isRestoration = true
+        showOnboardingScene(completion: nil)
     }
     
-    func onboardingDidFinish() {
-        navigateNext()
+    func onboardingDidFinish(resolvedName: String?) {
+        showWelcomeScene(isRestoration: isRestoration, name: resolvedName, completion: nil)
     }
     
     func userDidChangeAPIEndpoint(to endpoint: SolanaSDK.APIEndPoint) {
-        navigateNext()
+        // reload
+        start(authenticateOnMain: false)
     }
     
     func userDidChangeLanguage(to language: LocalizedLanguage) {
-        navigateNext()
+        // reload
+        start(authenticateOnMain: false)
     }
     
     func userDidLogout() {
-        navigateNext()
+        // reload
+        start(authenticateOnMain: false)
     }
 }

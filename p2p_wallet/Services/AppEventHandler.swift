@@ -24,7 +24,7 @@ protocol AppEventHandlerDelegate: AnyObject {
     func createWalletDidComplete()
     func restoreWalletDidComplete()
     
-    func onboardingDidFinish()
+    func onboardingDidFinish(resolvedName: String?)
     
     func userDidChangeAPIEndpoint(to endpoint: SolanaSDK.APIEndPoint)
     func userDidChangeLanguage(to language: LocalizedLanguage)
@@ -39,6 +39,7 @@ final class AppEventHandler: AppEventHandlerType {
     // MARK: - Properties
     private let isLoadingSubject = BehaviorRelay<Bool>(value: false)
     weak var delegate: AppEventHandlerDelegate?
+    private var resolvedName: String?
     
     // MARK: - Handlers
     var isLoadingDriver: Driver<Bool> {
@@ -64,7 +65,7 @@ final class AppEventHandler: AppEventHandlerType {
     
     // MARK: - Onboarding
     func finishOnboarding() {
-        delegate?.onboardingDidFinish()
+        delegate?.onboardingDidFinish(resolvedName: resolvedName)
     }
     
     func cancelOnboarding() {
@@ -122,6 +123,7 @@ final class AppEventHandler: AppEventHandlerType {
     
     // MARK: - Logout
     func logout() {
+        ResolverScope.session.reset()
         storage.clearAccount()
         Defaults.walletName = [:]
         Defaults.didSetEnableBiometry = false
@@ -143,6 +145,7 @@ private extension AppEventHandler {
             cancelCreatingOrRestoringWallet()
             return
         }
+        resolvedName = name
         
         isLoadingSubject.accept(true)
         DispatchQueue.global().async { [weak self] in

@@ -7,10 +7,11 @@
 
 import Foundation
 import SwiftUI
+import Resolver
 
 final class WelcomeViewController: BaseVC {
     // MARK: - Dependencies
-//    @Injected private var viewModel: RootViewModelType
+    private let appEventHandler: AppEventHandlerType = Resolver.resolve()
     private let name: String?
     private let isReturned: Bool
     
@@ -56,6 +57,6 @@ final class WelcomeViewController: BaseVC {
     }
     
     @objc func finishSetup() {
-//        viewModel.finishSetup()
+        appEventHandler.finishOnboarding()
     }
 }
