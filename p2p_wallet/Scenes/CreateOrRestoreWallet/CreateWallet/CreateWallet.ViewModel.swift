@@ -87,7 +87,7 @@ extension CreateWallet.ViewModel: CreateWalletViewModelType {
     
     func finish() {
         navigationSubject.accept(.dismiss)
-        handler.creatingWalletDidComplete(
+        handler.createWallet(
             phrases: phrases,
             derivablePath: .default,
             name: name

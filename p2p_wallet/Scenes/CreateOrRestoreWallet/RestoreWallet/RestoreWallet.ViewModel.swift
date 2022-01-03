@@ -190,7 +190,7 @@ extension RestoreWallet.ViewModel: ReserveNameHandler {
 private extension RestoreWallet.ViewModel {
     func finish() {
         finishedSubject.accept(())
-        handler.restoringWalletDidComplete(
+        handler.restoreWallet(
             phrases: phrases,
             derivablePath: derivablePath,
             name: name

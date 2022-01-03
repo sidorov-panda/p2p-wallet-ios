@@ -12,8 +12,8 @@ import LocalAuthentication
 import UserNotifications
 
 protocol OnboardingHandler {
-    func onboardingDidCancel()
-    func onboardingDidComplete()
+    func cancelOnboarding()
+    func finishOnboarding()
 }
 
 protocol OnboardingViewModelType {
@@ -173,11 +173,11 @@ extension Onboarding.ViewModel: OnboardingViewModelType {
     
     func cancelOnboarding() {
         navigationSubject.accept(.dismiss)
-        handler.onboardingDidCancel()
+        handler.cancelOnboarding()
     }
     
     func endOnboarding() {
         navigationSubject.accept(.dismiss)
-        handler.onboardingDidComplete()
+        handler.finishOnboarding()
     }
 }

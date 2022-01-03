@@ -1926,7 +1926,6 @@
 			children = (
 				BCB2231825412AF8002D997F /* AppDelegate.swift */,
 				BC134FA226FCD1E500DB15BF /* AppDelegate+Injection.swift */,
-				3B1681EA2783034100838F1B /* AppEventHandler.swift */,
 				3B1681E22782F42700838F1B /* AppCoordinator.swift */,
 				BC65E9D52542BD1F005F50CE /* Scenes */,
 				BC7A8EB1255BCE360023C918 /* Models */,
@@ -1941,6 +1940,7 @@
 		BCB22370254137C2002D997F /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				3B1681EA2783034100838F1B /* AppEventHandler.swift */,
 				41DD026B2760A95E00545A73 /* TextChangesFilters */,
 				417BB3532727FCDD00EDE6AE /* AddressFormatter.swift */,
 				BC32A3AB254A8884002156F0 /* Storage.swift */,
