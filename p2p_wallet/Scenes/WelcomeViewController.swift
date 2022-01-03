@@ -10,7 +10,7 @@ import SwiftUI
 
 class WelcomeViewController: BaseVC {
     // MARK: - Dependencies
-    @Injected private var viewModel: RootViewModelType
+//    @Injected private var viewModel: RootViewModelType
     private let name: String?
     private let isReturned: Bool
     
@@ -56,6 +56,6 @@ class WelcomeViewController: BaseVC {
     }
     
     @objc func finishSetup() {
-        viewModel.finishSetup()
+//        viewModel.finishSetup()
     }
 }
