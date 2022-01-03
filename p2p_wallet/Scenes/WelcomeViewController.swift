@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-class WelcomeViewController: BaseVC {
+final class WelcomeViewController: BaseVC {
     // MARK: - Dependencies
 //    @Injected private var viewModel: RootViewModelType
     private let name: String?

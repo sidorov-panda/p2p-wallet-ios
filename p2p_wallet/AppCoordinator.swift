@@ -8,16 +8,15 @@
 import Foundation
 import UIKit
 
-class AppCoordinator {
+final class AppCoordinator {
     // MARK: - Properties
     private let window: UIWindow?
-    private let storage: AccountStorageType & PincodeStorageType & NameStorageType
+    private let storage: AccountStorageType & PincodeStorageType & NameStorageType = Resolver.resolve()
     private var showAuthenticationOnMainOnAppear = true
     
     // MARK: - Initializer
     init(window: UIWindow?) {
         self.window = window
-        self.storage = Resolver.resolve()
     }
     
     // MARK: - Methods
