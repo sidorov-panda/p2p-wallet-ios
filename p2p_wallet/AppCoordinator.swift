@@ -7,19 +7,36 @@
 
 import Foundation
 import UIKit
+import RxSwift
 
 final class AppCoordinator {
     // MARK: - Properties
+    private let disposeBag = DisposeBag()
     private let window: UIWindow?
     private let storage: AccountStorageType & PincodeStorageType & NameStorageType = Resolver.resolve()
+    private var appEventHandler: AppEventHandlerType = Resolver.resolve()
     private var showAuthenticationOnMainOnAppear = true
     
     // MARK: - Initializer
     init(window: UIWindow?) {
         self.window = window
+        bind()
     }
     
     // MARK: - Methods
+    private func bind() {
+        appEventHandler.reloadHandler = {[weak self] in self?.reload()}
+        appEventHandler.isLoadingDriver
+            .drive(onNext: {[weak self] isLoading in
+                if isLoading {
+                    self?.window?.showLoadingIndicatorView()
+                } else {
+                    self?.window?.hideLoadingIndicatorView()
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
     func start() {
         reload()
     }

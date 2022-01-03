@@ -16,6 +16,7 @@
 		3B1681E52782F81200838F1B /* PlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1681E42782F81200838F1B /* PlaceholderViewController.swift */; };
 		3B1681E72783004700838F1B /* CreateOrRestoreWalletHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1681E62783004700838F1B /* CreateOrRestoreWalletHandler.swift */; };
 		3B1681E92783008400838F1B /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1681E82783008400838F1B /* WelcomeViewController.swift */; };
+		3B1681EB2783034100838F1B /* AppEventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1681EA2783034100838F1B /* AppEventHandler.swift */; };
 		3B270F42277454FF009B2C97 /* WLModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B270F41277454FF009B2C97 /* WLModalViewController.swift */; };
 		3B2BAFA62761E0190008DA0A /* SendTokenRecipientAndNetworkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2BAFA52761E0190008DA0A /* SendTokenRecipientAndNetworkHandler.swift */; };
 		3B2BAFA82761E2490008DA0A /* SendTokenTokenAndAmountHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2BAFA72761E2490008DA0A /* SendTokenTokenAndAmountHandler.swift */; };
@@ -500,6 +501,7 @@
 		3B1681E42782F81200838F1B /* PlaceholderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderViewController.swift; sourceTree = "<group>"; };
 		3B1681E62783004700838F1B /* CreateOrRestoreWalletHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrRestoreWalletHandler.swift; sourceTree = "<group>"; };
 		3B1681E82783008400838F1B /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		3B1681EA2783034100838F1B /* AppEventHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEventHandler.swift; sourceTree = "<group>"; };
 		3B270F41277454FF009B2C97 /* WLModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WLModalViewController.swift; sourceTree = "<group>"; };
 		3B2BAFA52761E0190008DA0A /* SendTokenRecipientAndNetworkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendTokenRecipientAndNetworkHandler.swift; sourceTree = "<group>"; };
 		3B2BAFA72761E2490008DA0A /* SendTokenTokenAndAmountHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendTokenTokenAndAmountHandler.swift; sourceTree = "<group>"; };
@@ -1924,6 +1926,7 @@
 			children = (
 				BCB2231825412AF8002D997F /* AppDelegate.swift */,
 				BC134FA226FCD1E500DB15BF /* AppDelegate+Injection.swift */,
+				3B1681EA2783034100838F1B /* AppEventHandler.swift */,
 				3B1681E22782F42700838F1B /* AppCoordinator.swift */,
 				BC65E9D52542BD1F005F50CE /* Scenes */,
 				BC7A8EB1255BCE360023C918 /* Models */,
@@ -3050,6 +3053,7 @@
 				BC5140C0272ABC0800DB84BD /* Home.swift in Sources */,
 				BC134FA326FCD1E500DB15BF /* AppDelegate+Injection.swift in Sources */,
 				BC4B9E7D2713FCFB005B9ECA /* AnalyticsManager.swift in Sources */,
+				3B1681EB2783034100838F1B /* AppEventHandler.swift in Sources */,
 				BC2297962700A320003F7118 /* RestoreICloud.AccountsListViewModel.swift in Sources */,
 				411F4719273B0C0B0011EBE3 /* Home.ClosingBannerType.swift in Sources */,
 				4183007A275884A0007BBEBF /* OrcaSwapV2.DetailsView.swift in Sources */,

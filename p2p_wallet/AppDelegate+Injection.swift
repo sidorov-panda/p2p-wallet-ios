@@ -161,6 +161,17 @@ extension Resolver: ResolverRegistering {
         register { DAppChannel() }
             .implements(DAppChannelType.self)
         
+        // MARK: - AppEventHandler
+        register { AppEventHandler() }
+            .implements(AppEventHandlerType.self)
+            .implements(CreateOrRestoreWalletHandler.self)
+            .implements(OnboardingHandler.self)
+            .implements(DeviceOwnerAuthenticationHandler.self)
+            .implements(ChangeNetworkResponder.self)
+            .implements(ChangeLanguageResponder.self)
+            .implements(LogoutResponder.self)
+            .scope(.application)
+        
         // MARK: - Root
 //        register {Root.ViewModel()}
 //            .implements(RootViewModelType.self)
