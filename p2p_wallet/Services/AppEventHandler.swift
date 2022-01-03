@@ -16,9 +16,8 @@ protocol AppEventHandlerType: CreateOrRestoreWalletHandler,
                                 ChangeLanguageResponder,
                                 LogoutResponder
 {
-    var reloadHandler: (() -> Void)? {get set}
     var isLoadingDriver: Driver<Bool> {get}
-    var delegate: AppEventHandlerDelegate? {get}
+    var delegate: AppEventHandlerDelegate? {get set}
 }
 
 protocol AppEventHandlerDelegate: AnyObject {
@@ -38,7 +37,6 @@ final class AppEventHandler: AppEventHandlerType {
     private let notificationsService: NotificationsServiceType = Resolver.resolve()
     
     // MARK: - Properties
-    var reloadHandler: (() -> Void)?
     private let isLoadingSubject = BehaviorRelay<Bool>(value: false)
     weak var delegate: AppEventHandlerDelegate?
     

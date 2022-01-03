@@ -28,7 +28,9 @@ class MainViewController: BaseVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         if authenticateWhenAppears {
-            viewModel.authenticate(presentationStyle: .login())
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300)) { [weak self] in
+                self?.viewModel.authenticate(presentationStyle: .login())
+            }
         }
     }
     
