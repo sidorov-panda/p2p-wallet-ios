@@ -17,6 +17,7 @@ import BECollectionView
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
+    private var appCoordinator: AppCoordinator!
     
     static var shared: AppDelegate {
         UIApplication.shared.delegate as! AppDelegate
@@ -56,8 +57,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // set rootVC
-        let vc = Root.ViewController()
-        window?.rootViewController = vc
+        appCoordinator = .init(window: window)
+        appCoordinator.start()
         
         window?.makeKeyAndVisible()
         return true

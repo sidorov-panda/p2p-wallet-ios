@@ -12,6 +12,8 @@
 		3B16154D2769A6840080DE42 /* OrcaSwapV2.ConfirmSwapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B16154C2769A6840080DE42 /* OrcaSwapV2.ConfirmSwapping.swift */; };
 		3B16154F2769A6B40080DE42 /* OrcaSwapV2.ConfirmSwapping.ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B16154E2769A6B40080DE42 /* OrcaSwapV2.ConfirmSwapping.ViewModel.swift */; };
 		3B1615512769ABB10080DE42 /* OrcaSwapV2.ConfirmSwapping.RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1615502769ABB10080DE42 /* OrcaSwapV2.ConfirmSwapping.RootView.swift */; };
+		3B1681E32782F42700838F1B /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1681E22782F42700838F1B /* AppCoordinator.swift */; };
+		3B1681E52782F81200838F1B /* PlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1681E42782F81200838F1B /* PlaceholderViewController.swift */; };
 		3B270F42277454FF009B2C97 /* WLModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B270F41277454FF009B2C97 /* WLModalViewController.swift */; };
 		3B2BAFA62761E0190008DA0A /* SendTokenRecipientAndNetworkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2BAFA52761E0190008DA0A /* SendTokenRecipientAndNetworkHandler.swift */; };
 		3B2BAFA82761E2490008DA0A /* SendTokenTokenAndAmountHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2BAFA72761E2490008DA0A /* SendTokenTokenAndAmountHandler.swift */; };
@@ -496,6 +498,8 @@
 		3B16154C2769A6840080DE42 /* OrcaSwapV2.ConfirmSwapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrcaSwapV2.ConfirmSwapping.swift; sourceTree = "<group>"; };
 		3B16154E2769A6B40080DE42 /* OrcaSwapV2.ConfirmSwapping.ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrcaSwapV2.ConfirmSwapping.ViewModel.swift; sourceTree = "<group>"; };
 		3B1615502769ABB10080DE42 /* OrcaSwapV2.ConfirmSwapping.RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrcaSwapV2.ConfirmSwapping.RootView.swift; sourceTree = "<group>"; };
+		3B1681E22782F42700838F1B /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		3B1681E42782F81200838F1B /* PlaceholderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderViewController.swift; sourceTree = "<group>"; };
 		3B270F41277454FF009B2C97 /* WLModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WLModalViewController.swift; sourceTree = "<group>"; };
 		3B2BAFA52761E0190008DA0A /* SendTokenRecipientAndNetworkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendTokenRecipientAndNetworkHandler.swift; sourceTree = "<group>"; };
 		3B2BAFA72761E2490008DA0A /* SendTokenTokenAndAmountHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendTokenTokenAndAmountHandler.swift; sourceTree = "<group>"; };
@@ -1650,6 +1654,8 @@
 		BC65E9D52542BD1F005F50CE /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				3B1681E22782F42700838F1B /* AppCoordinator.swift */,
+				3B1681E42782F81200838F1B /* PlaceholderViewController.swift */,
 				BCAB212725DF5CFD004F4F9D /* Root */,
 				BCE42DE125DF9B980021540E /* CreateOrRestoreWallet */,
 				BCE42DF125DF9C360021540E /* Onboarding */,
@@ -2710,6 +2716,7 @@
 				BCB286DD2754B5070074E1D5 /* SendToken.ChooseRecipientAndNetwork.ViewController.swift in Sources */,
 				BCB286F92754CCE20074E1D5 /* SendToken.ChooseRecipientAndNetwork.SelectAddress.RootView.swift in Sources */,
 				BC7D078526F87344005F777F /* AssociatedTokenAccountHandler.swift in Sources */,
+				3B1681E52782F81200838F1B /* PlaceholderViewController.swift in Sources */,
 				BC699AB925F9E69B00F57209 /* WLPhrasesListView.swift in Sources */,
 				BC32A393254A77A9002156F0 /* UIViewController+Extensions.swift in Sources */,
 				BC5140C3272ABC0800DB84BD /* Home.RootView.swift in Sources */,
@@ -2723,6 +2730,7 @@
 				BC8F676B26083B18002FDCCD /* WLPhrasesTextView.swift in Sources */,
 				BC65E191261EA4B100E436C7 /* NewsSection.swift in Sources */,
 				BCB286A3274C99870074E1D5 /* WLFloatingPanelView.swift in Sources */,
+				3B1681E32782F42700838F1B /* AppCoordinator.swift in Sources */,
 				BC4B9E9B27153F8D005B9ECA /* Settings.SelectNetworkViewController.swift in Sources */,
 				BC123E8425B181D80043178E /* Locale+Extensions.swift in Sources */,
 				BCEE51372625425E00271AB9 /* TransactionIndicatorView.swift in Sources */,
