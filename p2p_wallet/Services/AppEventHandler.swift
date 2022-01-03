@@ -18,6 +18,7 @@ protocol AppEventHandlerType: CreateOrRestoreWalletHandler,
 {
     var isLoadingDriver: Driver<Bool> {get}
     var delegate: AppEventHandlerDelegate? {get set}
+    func startUsingP2PWallet()
 }
 
 protocol AppEventHandlerDelegate: AnyObject {
@@ -25,6 +26,7 @@ protocol AppEventHandlerDelegate: AnyObject {
     func restoreWalletDidComplete()
     
     func onboardingDidFinish(resolvedName: String?)
+    func userDidTapStartUsingP2PWallet()
     
     func userDidChangeAPIEndpoint(to endpoint: SolanaSDK.APIEndPoint)
     func userDidChangeLanguage(to language: LocalizedLanguage)
@@ -44,6 +46,10 @@ final class AppEventHandler: AppEventHandlerType {
     // MARK: - Handlers
     var isLoadingDriver: Driver<Bool> {
         isLoadingSubject.asDriver()
+    }
+    
+    func startUsingP2PWallet() {
+        delegate?.userDidTapStartUsingP2PWallet()
     }
     
     // MARK: - Create or restore wallet

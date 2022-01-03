@@ -111,6 +111,10 @@ extension AppCoordinator: AppEventHandlerDelegate {
         showWelcomeScene(isRestoration: isRestoration, name: resolvedName, completion: nil)
     }
     
+    func userDidTapStartUsingP2PWallet() {
+        showMainScene(withAuthentication: false, completion: nil)
+    }
+    
     func userDidChangeAPIEndpoint(to endpoint: SolanaSDK.APIEndPoint) {
         // reload
         start(authenticateOnMain: false)

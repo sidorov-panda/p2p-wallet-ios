@@ -57,6 +57,6 @@ final class WelcomeViewController: BaseVC {
     }
     
     @objc func finishSetup() {
-        appEventHandler.finishOnboarding()
+        appEventHandler.startUsingP2PWallet()
     }
 }
