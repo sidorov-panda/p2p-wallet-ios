@@ -8,9 +8,6 @@
 import Foundation
 
 protocol CoordinatorType: AnyObject {
-    // MARK: - Properties
-    var didFinish: ((CoordinatorType) -> Void)? { get set }
-
     // MARK: - Methods
     func start()
 }

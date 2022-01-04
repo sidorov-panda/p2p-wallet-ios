@@ -16,7 +16,7 @@ final class AppCoordinator {
     private let analyticsManager: AnalyticsManager = Resolver.resolve()
     
     // MARK: - Properties
-    private var childCoordinators: [CoordinatorType] = []
+    private var childCoordinator: CoordinatorType?
     private let disposeBag = DisposeBag()
     private let window: UIWindow?
     private var isRestoration: Bool = false
@@ -67,7 +67,7 @@ final class AppCoordinator {
         changeRootViewController(to: nc) { [weak nc, weak self] in
             guard let nc = nc else {return}
             let coordinator = CreateOrRestoreWallet.Coordinator(navigationController: nc)
-            self?.pushCoordinator(coordinator)
+            self?.setChildCoordinator(coordinator)
         }
     }
     
@@ -100,24 +100,12 @@ final class AppCoordinator {
         }
     }
     
-    private func pushCoordinator(_ coordinator: CoordinatorType) {
-        // Finish handler
-        coordinator.didFinish = { [weak self] coordinator in
-            self?.popCoordinator(coordinator)
-        }
-        
-        // Start Coordinator
+    private func setChildCoordinator(_ coordinator: CoordinatorType) {
+        // start Coordinator
         coordinator.start()
 
-        // Append to Child Coordinators
-        childCoordinators.append(coordinator)
-    }
-    
-    private func popCoordinator(_ coordinator: CoordinatorType) {
-        // Remove Coordinator From Child Coordinators
-        if let index = childCoordinators.firstIndex(where: { $0 === coordinator }) {
-            childCoordinators.remove(at: index)
-        }
+        // keep reference to coordinator
+        childCoordinator = coordinator
     }
 }
 

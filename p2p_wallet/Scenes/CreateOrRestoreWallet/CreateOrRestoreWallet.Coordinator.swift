@@ -12,7 +12,6 @@ extension CreateOrRestoreWallet {
     final class Coordinator: CoordinatorType {
         // MARK: - Properties
         private let navigationController: UINavigationController
-        var didFinish: ((CoordinatorType) -> Void)?
         
         // MARK: - Initializer
         init(navigationController: UINavigationController) {

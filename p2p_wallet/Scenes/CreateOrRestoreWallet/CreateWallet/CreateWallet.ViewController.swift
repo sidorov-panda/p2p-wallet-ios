@@ -35,42 +35,5 @@ extension CreateWallet {
             childNavigationController.setNavigationBarHidden(true, animated: false)
             view.addSubview(childNavigationController.view)
         }
-        
-        override func bind() {
-            super.bind()
-            viewModel.navigatableSceneDriver
-                .drive(onNext: { [weak self] in self?.navigate(to: $0) })
-                .disposed(by: disposeBag)
-        }
-        
-        // MARK: - Navigation
-        private func navigate(to scene: CreateWallet.NavigatableScene?) {
-            guard let scene = scene else {
-                return
-            }
-            switch scene {
-            case .explanation:
-                let vc = ExplanationVC()
-                childNavigationController.pushViewController(vc, animated: true)
-            case .createPhrases:
-                let vc = CreateSecurityKeys.ViewController()
-                childNavigationController.pushViewController(vc, animated: true)
-            case .reserveName(let owner):
-                let vc = ReserveName.ViewController(kind: .reserveCreateWalletPart, owner: owner, reserveNameHandler: viewModel)
-                childNavigationController.pushViewController(vc, animated: true)
-            case .verifyPhrase(let phrase):
-                let vm = VerifySecurityKeys.ViewModel(keyPhrase: phrase)
-                let vc = VerifySecurityKeys.ViewController(viewModel: vm)
-                childNavigationController.pushViewController(vc, animated: true)
-            case .dismiss:
-                navigationController?.popViewController(animated: true)
-            case .back:
-                if childNavigationController.viewControllers.count > 1 {
-                    childNavigationController.popViewController(animated: true)
-                } else {
-                    navigationController?.popViewController(animated: true)
-                }
-            }
-        }
     }
 }
