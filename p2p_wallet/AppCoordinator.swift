@@ -33,20 +33,18 @@ final class AppCoordinator: SingleChildCoordinatorType {
         appEventHandler.delegate = self
         appEventHandler.isLoadingDriver
             .drive(onNext: {[weak self] isLoading in
-                if isLoading {
-                    self?.window?.showLoadingIndicatorView()
-                } else {
-                    self?.window?.hideLoadingIndicatorView()
-                }
+                self?.showLoading(isLoading: isLoading)
             })
             .disposed(by: disposeBag)
     }
     
     func start(authenticateOnMain: Bool = true) {
+        showLoading(isLoading: true)
         DispatchQueue.global(qos: .userInteractive).async { [weak self] in
             let account = self?.storage.account
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else {return}
+                self.showLoading(isLoading: false)
                 if account == nil {
                     self.showCreateOrRestoreWalletScene(completion: nil)
                 } else if self.storage.pinCode == nil ||
@@ -97,6 +95,14 @@ final class AppCoordinator: SingleChildCoordinatorType {
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300)) { [weak self] in
             self?.window?.rootViewController = vc
             completion?()
+        }
+    }
+    
+    private func showLoading(isLoading: Bool) {
+        if isLoading {
+            window?.rootViewController?.view.showLoadingIndicatorView()
+        } else {
+            window?.rootViewController?.view.hideLoadingIndicatorView()
         }
     }
 }

@@ -18,6 +18,11 @@ protocol CoordinatorType: AnyObject {
     func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool)
 }
 
+extension CoordinatorType {
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {}
+    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {}
+}
+
 // MARK: - Coordinator with single child
 protocol SingleChildCoordinatorType: AnyObject {
     // MARK: - Properties

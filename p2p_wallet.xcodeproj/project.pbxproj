@@ -19,7 +19,8 @@
 		3B1681EB2783034100838F1B /* AppEventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1681EA2783034100838F1B /* AppEventHandler.swift */; };
 		3B1681ED2783EDD500838F1B /* CreateOrRestoreWallet.Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1681EC2783EDD500838F1B /* CreateOrRestoreWallet.Coordinator.swift */; };
 		3B1681EF2783F9F700838F1B /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1681EE2783F9F700838F1B /* Coordinator.swift */; };
-		3B1681F12783FD9900838F1B /* CreateWallet.Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1681F02783FD9900838F1B /* CreateWallet.Coordinator.swift */; };
+		3B1681F32784625400838F1B /* CreateWallet.ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1681F22784625400838F1B /* CreateWallet.ViewModel.swift */; };
+		3B1681F52784629B00838F1B /* CreateWallet.ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1681F42784629B00838F1B /* CreateWallet.ViewController.swift */; };
 		3B270F42277454FF009B2C97 /* WLModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B270F41277454FF009B2C97 /* WLModalViewController.swift */; };
 		3B2BAFA62761E0190008DA0A /* SendTokenRecipientAndNetworkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2BAFA52761E0190008DA0A /* SendTokenRecipientAndNetworkHandler.swift */; };
 		3B2BAFA82761E2490008DA0A /* SendTokenTokenAndAmountHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2BAFA72761E2490008DA0A /* SendTokenTokenAndAmountHandler.swift */; };
@@ -504,7 +505,8 @@
 		3B1681EA2783034100838F1B /* AppEventHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEventHandler.swift; sourceTree = "<group>"; };
 		3B1681EC2783EDD500838F1B /* CreateOrRestoreWallet.Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrRestoreWallet.Coordinator.swift; sourceTree = "<group>"; };
 		3B1681EE2783F9F700838F1B /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
-		3B1681F02783FD9900838F1B /* CreateWallet.Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateWallet.Coordinator.swift; sourceTree = "<group>"; };
+		3B1681F22784625400838F1B /* CreateWallet.ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateWallet.ViewModel.swift; sourceTree = "<group>"; };
+		3B1681F42784629B00838F1B /* CreateWallet.ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateWallet.ViewController.swift; sourceTree = "<group>"; };
 		3B270F41277454FF009B2C97 /* WLModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WLModalViewController.swift; sourceTree = "<group>"; };
 		3B2BAFA52761E0190008DA0A /* SendTokenRecipientAndNetworkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendTokenRecipientAndNetworkHandler.swift; sourceTree = "<group>"; };
 		3B2BAFA72761E2490008DA0A /* SendTokenTokenAndAmountHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendTokenTokenAndAmountHandler.swift; sourceTree = "<group>"; };
@@ -2269,13 +2271,13 @@
 			isa = PBXGroup;
 			children = (
 				3B1681E62783004700838F1B /* CreateOrRestoreWalletHandler.swift */,
-				41CA056E2754722F00953322 /* ReserveName */,
 				BC134FA426FD76E100DB15BF /* CreateOrRestoreWallet.swift */,
 				3B1681EC2783EDD500838F1B /* CreateOrRestoreWallet.Coordinator.swift */,
 				BCE42DE425DF9BDA0021540E /* CreateOrRestoreWallet.ViewController.swift */,
 				BC32A355254A69EA002156F0 /* CreateOrRestoreWallet.WelcomeVC.swift */,
 				BCE42DFE25DFA0830021540E /* CreateWallet */,
 				BCE42E1425DFA4F90021540E /* RestoreWallet */,
+				41CA056E2754722F00953322 /* ReserveName */,
 			);
 			path = CreateOrRestoreWallet;
 			sourceTree = "<group>";
@@ -2295,7 +2297,8 @@
 			isa = PBXGroup;
 			children = (
 				BC134FA626FD7C6600DB15BF /* CreateWallet.swift */,
-				3B1681F02783FD9900838F1B /* CreateWallet.Coordinator.swift */,
+				3B1681F22784625400838F1B /* CreateWallet.ViewModel.swift */,
+				3B1681F42784629B00838F1B /* CreateWallet.ViewController.swift */,
 				8469955789FEB4DC7C8A9697 /* CreateWallet.ExplanationVC.swift */,
 				BC7B2C7625E384FE00833656 /* CreateSecurityKeys */,
 				86A90D12273D306400D180EF /* VerifySecurityKeys */,
@@ -2802,11 +2805,11 @@
 				3B35734C2769F48A00B1738F /* OrcaSwapV2ConfirmSwappingViewModelType.swift in Sources */,
 				BC54DCF92587089700A65566 /* WalletGraphViewModel.swift in Sources */,
 				BC6FED90270BF47E002B6255 /* RenBTCReceivingStatuses.swift in Sources */,
-				3B1681F12783FD9900838F1B /* CreateWallet.Coordinator.swift in Sources */,
 				BC3EA481254FD3CE00FB1FEA /* BaseCollectionViewCell.swift in Sources */,
 				BC4B9E85271425B9005B9ECA /* Settings.swift in Sources */,
 				BC5257FE25CBBFD40076317E /* CryptoComparePricesFetcher+Models.swift in Sources */,
 				BC5140C2272ABC0800DB84BD /* Home.ViewModel.swift in Sources */,
+				3B1681F32784625400838F1B /* CreateWallet.ViewModel.swift in Sources */,
 				4114D16C2746272400352CDF /* EnterSeedInfo.ViewModel.swift in Sources */,
 				3BF088262768861A006EEA66 /* OrcaSwapV2.ViewModel+Extensions.swift in Sources */,
 				BC65E170261E9FB600E436C7 /* Defi.swift in Sources */,
@@ -3041,6 +3044,7 @@
 				BCACA7DC2678942B0091E118 /* ProcessingTransactionsRepository.swift in Sources */,
 				BC18CA8A263265680054E624 /* SolanaSDK.Token+Extensions.swift in Sources */,
 				BC53E2242654ECCD005624CC /* DerivableAccounts.ListViewModel.swift in Sources */,
+				3B1681F52784629B00838F1B /* CreateWallet.ViewController.swift in Sources */,
 				BCA93F5325E77C240081DDF6 /* TokenSettingsViewModel.swift in Sources */,
 				BC2EC93A2705C1E9005FC432 /* PayingFee.swift in Sources */,
 				BC1BEBFE26CDFE290049A44C /* SwapToken.WalletView.swift in Sources */,
