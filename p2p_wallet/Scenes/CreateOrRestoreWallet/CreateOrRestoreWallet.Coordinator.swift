@@ -9,14 +9,17 @@ import Foundation
 import UIKit
 
 extension CreateOrRestoreWallet {
-    final class Coordinator: CoordinatorType {
+    final class Coordinator: NSObject, CoordinatorType, SingleChildCoordinatorType {
         // MARK: - Properties
         private let navigationController: UINavigationController
         var didCancel: ((CoordinatorType) -> Void)?
+        var child: CoordinatorType?
         
         // MARK: - Initializer
         init(navigationController: UINavigationController) {
             self.navigationController = navigationController
+            super.init()
+            self.navigationController.delegate = self
         }
         
         // MARK: - Methods
@@ -24,6 +27,14 @@ extension CreateOrRestoreWallet {
             let vc = CreateOrRestoreWallet.ViewController()
             vc.delegate = self
             navigationController.pushViewController(vc, animated: false)
+        }
+        
+        private func cancel() {
+            // Reset Navigation Controller
+            navigationController.popToRootViewController(animated: true)
+
+            // Invoke Handler
+            didCancel?(self)
         }
         
         // MARK: - Navigation
@@ -37,6 +48,16 @@ extension CreateOrRestoreWallet {
                 navigationController.pushViewController(vc, animated: true)
             }
         }
+    }
+}
+
+extension CreateOrRestoreWallet.Coordinator: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        child?.navigationController(navigationController, willShow: viewController, animated: animated)
+    }
+    
+    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+        child?.navigationController(navigationController, didShow: viewController, animated: animated)
     }
 }
 

@@ -38,12 +38,12 @@ extension CreateWallet {
             case .createPhrases:
                 let vc = CreateSecurityKeys.ViewController()
                 navigationController.pushViewController(vc, animated: true)
-            case .reserveName(let owner):
-                let vc = ReserveName.ViewController(kind: .reserveCreateWalletPart, owner: owner, reserveNameHandler: viewModel)
-                navigationController.pushViewController(vc, animated: true)
             case .verifyPhrase(let phrase):
                 let vm = VerifySecurityKeys.ViewModel(keyPhrase: phrase)
                 let vc = VerifySecurityKeys.ViewController(viewModel: vm)
+                navigationController.pushViewController(vc, animated: true)
+            case .reserveName(let owner):
+                let vc = ReserveName.ViewController(kind: .reserveCreateWalletPart, owner: owner, reserveNameHandler: viewModel)
                 navigationController.pushViewController(vc, animated: true)
             case .dismiss:
                 navigationController.popViewController(animated: true)

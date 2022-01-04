@@ -468,7 +468,6 @@
 		BCE42DE725DF9BDA0021540E /* CreateOrRestoreWallet.ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE42DE425DF9BDA0021540E /* CreateOrRestoreWallet.ViewController.swift */; };
 		BCE42DF525DF9C7A0021540E /* Onboarding.ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE42DF225DF9C7A0021540E /* Onboarding.ViewModel.swift */; };
 		BCE42DF725DF9C7A0021540E /* Onboarding.ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE42DF425DF9C7A0021540E /* Onboarding.ViewController.swift */; };
-		BCE42E0225DFA0B50021540E /* CreateWallet.ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE42DFF25DFA0B50021540E /* CreateWallet.ViewModel.swift */; };
 		BCE42E1825DFA5100021540E /* RestoreWallet.ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE42E1525DFA5100021540E /* RestoreWallet.ViewModel.swift */; };
 		BCE42E1A25DFA5100021540E /* RestoreWallet.ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE42E1725DFA5100021540E /* RestoreWallet.ViewController.swift */; };
 		BCE77E6326536817000B68BB /* DerivableAccounts.ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE77E6226536817000B68BB /* DerivableAccounts.ViewController.swift */; };
@@ -979,7 +978,6 @@
 		BCE42DE425DF9BDA0021540E /* CreateOrRestoreWallet.ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrRestoreWallet.ViewController.swift; sourceTree = "<group>"; };
 		BCE42DF225DF9C7A0021540E /* Onboarding.ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Onboarding.ViewModel.swift; sourceTree = "<group>"; };
 		BCE42DF425DF9C7A0021540E /* Onboarding.ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Onboarding.ViewController.swift; sourceTree = "<group>"; };
-		BCE42DFF25DFA0B50021540E /* CreateWallet.ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateWallet.ViewModel.swift; sourceTree = "<group>"; };
 		BCE42E1525DFA5100021540E /* RestoreWallet.ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoreWallet.ViewModel.swift; sourceTree = "<group>"; };
 		BCE42E1725DFA5100021540E /* RestoreWallet.ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoreWallet.ViewController.swift; sourceTree = "<group>"; };
 		BCE77E6226536817000B68BB /* DerivableAccounts.ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DerivableAccounts.ViewController.swift; sourceTree = "<group>"; };
@@ -2298,7 +2296,6 @@
 			children = (
 				BC134FA626FD7C6600DB15BF /* CreateWallet.swift */,
 				3B1681F02783FD9900838F1B /* CreateWallet.Coordinator.swift */,
-				BCE42DFF25DFA0B50021540E /* CreateWallet.ViewModel.swift */,
 				8469955789FEB4DC7C8A9697 /* CreateWallet.ExplanationVC.swift */,
 				BC7B2C7625E384FE00833656 /* CreateSecurityKeys */,
 				86A90D12273D306400D180EF /* VerifySecurityKeys */,
@@ -2803,7 +2800,6 @@
 				BCEE508526244B6300271AB9 /* WLEmptyCell.swift in Sources */,
 				BCB286C6274CCAA30074E1D5 /* SendToken.ChooseTokenAndAmount.ViewController.swift in Sources */,
 				3B35734C2769F48A00B1738F /* OrcaSwapV2ConfirmSwappingViewModelType.swift in Sources */,
-				BCE42E0225DFA0B50021540E /* CreateWallet.ViewModel.swift in Sources */,
 				BC54DCF92587089700A65566 /* WalletGraphViewModel.swift in Sources */,
 				BC6FED90270BF47E002B6255 /* RenBTCReceivingStatuses.swift in Sources */,
 				3B1681F12783FD9900838F1B /* CreateWallet.Coordinator.swift in Sources */,

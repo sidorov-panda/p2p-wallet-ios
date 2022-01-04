@@ -9,14 +9,14 @@ import Foundation
 import UIKit
 import RxSwift
 
-final class AppCoordinator {
+final class AppCoordinator: SingleChildCoordinatorType {
     // MARK: - Dependencies
     private let storage: AccountStorageType & PincodeStorageType & NameStorageType = Resolver.resolve()
     private var appEventHandler: AppEventHandlerType = Resolver.resolve()
     private let analyticsManager: AnalyticsManager = Resolver.resolve()
     
     // MARK: - Properties
-    private var childCoordinator: CoordinatorType?
+    var child: CoordinatorType?
     private let disposeBag = DisposeBag()
     private let window: UIWindow?
     private var isRestoration: Bool = false
@@ -98,19 +98,6 @@ final class AppCoordinator {
             self?.window?.rootViewController = vc
             completion?()
         }
-    }
-    
-    private func setChildCoordinator(_ coordinator: CoordinatorType) {
-        // release coordinator when finished
-        coordinator.didCancel = {[weak self] _ in
-            self?.childCoordinator = nil
-        }
-        
-        // start coordinator
-        coordinator.start()
-
-        // keep reference to coordinator
-        childCoordinator = coordinator
     }
 }
 
