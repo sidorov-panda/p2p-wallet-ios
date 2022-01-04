@@ -10,8 +10,12 @@ import UIKit
 
 extension CreateWallet {
     final class Coordinator: CoordinatorType {
+        // MARK: - Dependencies
+        private let analyticsManager: AnalyticsManagerType = Resolver.resolve()
+        
         // MARK: - Properties
         private let navigationController: UINavigationController
+        var didCancel: ((CoordinatorType) -> Void)?
         
         // MARK: - Initializer
         init(navigationController: UINavigationController) {
@@ -20,6 +24,7 @@ extension CreateWallet {
         
         // MARK: - Methods
         func start() {
+            analyticsManager.log(event: .createWalletOpen)
             navigate(to: .explanation)
         }
         
@@ -28,6 +33,7 @@ extension CreateWallet {
             switch scene {
             case .explanation:
                 let vc = ExplanationVC()
+                vc.delegate = self
                 navigationController.pushViewController(vc, animated: true)
             case .createPhrases:
                 let vc = CreateSecurityKeys.ViewController()
@@ -49,5 +55,15 @@ extension CreateWallet {
                 }
             }
         }
+    }
+}
+
+extension CreateWallet.Coordinator: CreateWalletExplanationVCDelegate {
+    func explanationDidFinish() {
+        navigate(to: .createPhrases)
+    }
+    
+    func explanationDidTapBack() {
+        didCancel?(self)
     }
 }

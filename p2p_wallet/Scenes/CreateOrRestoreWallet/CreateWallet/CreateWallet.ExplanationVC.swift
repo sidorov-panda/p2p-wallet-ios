@@ -5,6 +5,11 @@
 import Foundation
 import UIKit
 
+protocol CreateWalletExplanationVCDelegate: AnyObject {
+    func explanationDidFinish()
+    func explanationDidTapBack()
+}
+
 extension CreateWallet {
     class ExplanationVC: BaseVC {
         override var preferredNavigationBarStype: BEViewController.NavigationBarStyle {
@@ -21,8 +26,8 @@ extension CreateWallet {
         
         private let createWalletButton: WLStepButton = WLStepButton.main(image: .key, imageSize: CGSize(width: 16, height: 15), text: L10n.showYourSecurityKey)
         
-        // MARK: - Dependencies
-        @Injected private var viewModel: CreateWalletViewModelType
+        // MARK: - Properties
+        weak var delegate: CreateWalletExplanationVCDelegate?
         
         // MARK: - Methods
         override func setUp() {
@@ -56,17 +61,17 @@ extension CreateWallet {
             view.addSubview(createWalletButton)
             createWalletButton.autoPinEdgesToSuperviewSafeArea(with: .init(x: 18, y: 20), excludingEdge: .top)
             createWalletButton.autoPinEdge(.top, to: .bottom, of: illustration, withOffset: 10)
-            createWalletButton.onTap(self, action: #selector(navigateToCreateWalletScene))
+            createWalletButton.onTap(self, action: #selector(navigateNext))
         }
         
         // MARK: - Navigation
-        @objc private func navigateToCreateWalletScene() {
-            viewModel.navigateToCreatePhrases()
+        @objc private func navigateNext() {
+            delegate?.explanationDidFinish()
         }
     
         @objc private func _back() {
-            viewModel.back()
+            back()
+            delegate?.explanationDidTapBack()
         }
-    
     }
 }

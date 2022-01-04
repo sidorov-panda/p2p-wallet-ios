@@ -101,7 +101,12 @@ final class AppCoordinator {
     }
     
     private func setChildCoordinator(_ coordinator: CoordinatorType) {
-        // start Coordinator
+        // release coordinator when finished
+        coordinator.didCancel = {[weak self] _ in
+            self?.childCoordinator = nil
+        }
+        
+        // start coordinator
         coordinator.start()
 
         // keep reference to coordinator
