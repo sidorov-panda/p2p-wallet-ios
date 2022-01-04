@@ -8,14 +8,21 @@
 import Foundation
 import UIKit
 
+protocol CreateOrRestoreWalletViewControllerDelegate: AnyObject {
+    func createWalletDidTap()
+    func restoreWalletDidTap()
+}
+
 extension CreateOrRestoreWallet {
     class ViewController: BaseVC {
         override var preferredNavigationBarStype: BEViewController.NavigationBarStyle {
             .hidden
         }
         
+        // MARK: - Properties
+        weak var delegate: CreateOrRestoreWalletViewControllerDelegate?
+        
         // MARK: - Dependencies
-        @Injected private var viewModel: CreateOrRestoreWalletViewModelType
         @Injected private var analyticsManager: AnalyticsManagerType
         
         // MARK: - Subviews
@@ -61,26 +68,7 @@ extension CreateOrRestoreWallet {
             add(child: WelcomeVC(), to: containerView)
         }
         
-        override func bind() {
-            super.bind()
-            viewModel.navigatableSceneDriver
-                .drive(onNext: {[weak self] in self?.navigate(to: $0)})
-                .disposed(by: disposeBag)
-        }
-        
         // MARK: - Navigation
-        private func navigate(to scene: NavigatableScene?) {
-            guard let scene = scene else {return}
-            switch scene {
-            case .createWallet:
-                let vc = CreateWallet.ViewController()
-                show(vc, sender: nil)
-            case .restoreWallet:
-                let vc = RestoreWallet.ViewController()
-                show(vc, sender: nil)
-            }
-        }
-        
         override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
             .portrait
         }
@@ -90,11 +78,11 @@ extension CreateOrRestoreWallet {
         }
         
         @objc private func navigateToCreateWalletScene() {
-            viewModel.navigateToCreateWalletScene()
+            delegate?.createWalletDidTap()
         }
 
         @objc private func navigateToRestoreWalletScene() {
-            viewModel.navigateToRestoreWalletScene()
+            delegate?.restoreWalletDidTap()
         }
     }
 }

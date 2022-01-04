@@ -172,22 +172,6 @@ extension Resolver: ResolverRegistering {
             .implements(LogoutResponder.self)
             .scope(.application)
         
-        // MARK: - Root
-//        register {Root.ViewModel()}
-//            .implements(RootViewModelType.self)
-//            .implements(ChangeNetworkResponder.self)
-//            .implements(ChangeLanguageResponder.self)
-//            .implements(LogoutResponder.self)
-//            .implements(CreateOrRestoreWalletHandler.self)
-//            .implements(OnboardingHandler.self)
-//            .implements(DeviceOwnerAuthenticationHandler.self)
-//            .scope(.shared)
-        
-        // MARK: - CreateOrRestoreWallet
-        register {CreateOrRestoreWallet.ViewModel()}
-            .implements(CreateOrRestoreWalletViewModelType.self)
-            .scope(.shared)
-        
         // CreateWallet
         register {CreateWallet.ViewModel()}
             .implements(CreateWalletViewModelType.self)

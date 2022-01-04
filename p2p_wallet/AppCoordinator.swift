@@ -16,6 +16,7 @@ final class AppCoordinator {
     private let analyticsManager: AnalyticsManager = Resolver.resolve()
     
     // MARK: - Properties
+    private var childCoordinators: [CoordinatorType] = []
     private let disposeBag = DisposeBag()
     private let window: UIWindow?
     private var isRestoration: Bool = false
@@ -62,9 +63,12 @@ final class AppCoordinator {
     
     // MARK: - Navigation
     private func showCreateOrRestoreWalletScene(completion: (() -> Void)?) {
-        let vc = CreateOrRestoreWallet.ViewController()
-        let nc = UINavigationController(rootViewController: vc)
-        changeRootViewController(to: nc, completion: completion)
+        let nc = UINavigationController()
+        changeRootViewController(to: nc) { [weak nc, weak self] in
+            guard let nc = nc else {return}
+            let coordinator = CreateOrRestoreWallet.Coordinator(navigationController: nc)
+            self?.pushCoordinator(coordinator)
+        }
     }
     
     private func showOnboardingScene(completion: (() -> Void)?) {
@@ -93,6 +97,26 @@ final class AppCoordinator {
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300)) { [weak self] in
             self?.window?.rootViewController = vc
             completion?()
+        }
+    }
+    
+    private func pushCoordinator(_ coordinator: CoordinatorType) {
+        // Finish handler
+        coordinator.didFinish = { [weak self] coordinator in
+            self?.popCoordinator(coordinator)
+        }
+        
+        // Start Coordinator
+        coordinator.start()
+
+        // Append to Child Coordinators
+        childCoordinators.append(coordinator)
+    }
+    
+    private func popCoordinator(_ coordinator: CoordinatorType) {
+        // Remove Coordinator From Child Coordinators
+        if let index = childCoordinators.firstIndex(where: { $0 === coordinator }) {
+            childCoordinators.remove(at: index)
         }
     }
 }
