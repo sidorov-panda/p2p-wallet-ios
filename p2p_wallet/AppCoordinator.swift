@@ -13,6 +13,7 @@ final class AppCoordinator {
     // MARK: - Dependencies
     private let storage: AccountStorageType & PincodeStorageType & NameStorageType = Resolver.resolve()
     private var appEventHandler: AppEventHandlerType = Resolver.resolve()
+    private let analyticsManager: AnalyticsManager = Resolver.resolve()
     
     // MARK: - Properties
     private let disposeBag = DisposeBag()
@@ -99,19 +100,24 @@ final class AppCoordinator {
 extension AppCoordinator: AppEventHandlerDelegate {
     func createWalletDidComplete() {
         isRestoration = false
+        analyticsManager.log(event: .setupOpen(fromPage: "create_wallet"))
         showOnboardingScene(completion: nil)
     }
     
     func restoreWalletDidComplete() {
         isRestoration = true
+        analyticsManager.log(event: .setupOpen(fromPage: "recovery"))
         showOnboardingScene(completion: nil)
     }
     
     func onboardingDidFinish(resolvedName: String?) {
+        let event: AnalyticsEvent = isRestoration ? .setupWelcomeBackOpen: .setupFinishOpen
+        analyticsManager.log(event: event)
         showWelcomeScene(isRestoration: isRestoration, name: resolvedName, completion: nil)
     }
     
     func userDidTapStartUsingP2PWallet() {
+        analyticsManager.log(event: .setupFinishClick)
         showMainScene(withAuthentication: false, completion: nil)
     }
     
