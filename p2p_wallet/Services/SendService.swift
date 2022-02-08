@@ -104,17 +104,6 @@ class SendService: SendServiceType {
                     usingCachedFeePayerPubkey: true
                 )
                     .map {$0.expectedFee}
-                    .flatMap { [weak self] expectedFee in
-                        guard let self = self else {throw SolanaSDK.Error.unknown}
-                        return self.relayService.getRelayAccountStatus(reuseCache: true)
-                            .map { [weak self] relayAccountStatus -> SolanaSDK.FeeAmount in
-                                guard let self = self else {throw SolanaSDK.Error.unknown}
-                                if relayAccountStatus == .notYetCreated {
-                                    return .init(transaction: expectedFee.transaction, accountBalances: expectedFee.accountBalances + self.relayService.getRelayAccountCreationCost())
-                                }
-                                return expectedFee
-                            }
-                    }
             case .reward:
                 return .just(.zero)
             }
@@ -279,8 +268,9 @@ class SendService: SendServiceType {
                 guard let self = self else {return .error(SolanaSDK.Error.unknown)}
                 let feePayer = feePayer == nil ? nil: try SolanaSDK.PublicKey(string: feePayer)
                 
+                let transactionRequest: Single<SolanaSDK.PreparedTransaction>
                 if wallet.isNativeSOL {
-                    return self.solanaSDK.prepareSendingNativeSOL(
+                    transactionRequest = self.solanaSDK.prepareSendingNativeSOL(
                         to: receiver,
                         amount: amount,
                         feePayer: feePayer,
@@ -291,7 +281,7 @@ class SendService: SendServiceType {
                 
                 // other tokens
                 else {
-                    return self.solanaSDK.prepareSendingSPLTokens(
+                    transactionRequest = self.solanaSDK.prepareSendingSPLTokens(
                         mintAddress: wallet.mintAddress,
                         decimals: wallet.token.decimals,
                         from: sender,
@@ -304,6 +294,20 @@ class SendService: SendServiceType {
                         minRentExemption: minRentExemption
                     ).map {$0.preparedTransaction}
                 }
+                
+                return Single.zip(
+                    self.relayService.getRelayAccountStatus(reuseCache: true),
+                    transactionRequest
+                )
+                    .map { relayAccountStatus, transaction in
+                        if relayAccountStatus == .notYetCreated {
+                            var transaction = transaction
+                            transaction.expectedFee.transaction += self.relayService.getRelayAccountCreationCost()
+                            return transaction
+                        } else {
+                            return transaction
+                        }
+                    }
             }
     }
     
