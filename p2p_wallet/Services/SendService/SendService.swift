@@ -163,7 +163,13 @@ class SendService: SendServiceType {
                 )
             }
         case .bitcoin:
-            renVMBurnAndReleaseService.sender.payingFeeToken = try? getPayingFeeToken(payingFeeWallet: payingFeeWallet)
+            switch relayMethod {
+            case .relay:
+                renVMBurnAndReleaseService.sender.payingFeeToken = try? getPayingFeeToken(payingFeeWallet: payingFeeWallet)
+            case .reward:
+                renVMBurnAndReleaseService.sender.payingFeeToken = .init(address: "", mint: SolanaSDK.PublicKey.wrappedSOLMint.base58EncodedString)
+            }
+            
             request = renVMBurnAndReleaseService.burn(
                 recipient: receiver,
                 amount: amount
