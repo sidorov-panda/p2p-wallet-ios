@@ -8,8 +8,10 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import SolanaSwift
 
 protocol RenVMBurnAndReleaseServiceType {
+    var sender: RenVMSolanaTransactionSender {get}
     func isTestNet() -> Bool
     func getFee() -> Single<Double>
     func burn(recipient: String, amount: UInt64) -> Single<String>
@@ -28,6 +30,7 @@ extension RenVM.BurnAndRelease {
         private let account: SolanaSDK.Account
         private var transactionStorage: RenVMBurnAndReleaseTransactionStorageType
         private let transactionHandler: TransactionHandler
+        let sender: RenVMSolanaTransactionSender
         
         // MARK: - Properties
         private var releasingTxs = [BurnDetails]()
@@ -42,7 +45,8 @@ extension RenVM.BurnAndRelease {
             solanaClient: RenVMSolanaAPIClientType,
             account: SolanaSDK.Account,
             transactionStorage: RenVMBurnAndReleaseTransactionStorageType,
-            transactionHandler: TransactionHandler
+            transactionHandler: TransactionHandler,
+            sender: RenVMSolanaTransactionSender
         ) {
             self.rpcClient = rpcClient
             self.solanaClient = solanaClient
@@ -52,6 +56,7 @@ extension RenVM.BurnAndRelease {
             self.burnAndReleaseSubject = .init(
                 request: .error(RenVM.Error.unknown)
             )
+            self.sender = sender
             
             bind()
             reload()
@@ -60,7 +65,8 @@ extension RenVM.BurnAndRelease {
         func bind() {
             burnAndReleaseSubject.request = RenVM.SolanaChain.load(
                 client: rpcClient,
-                solanaClient: solanaClient
+                solanaClient: solanaClient,
+                sender: sender
             )
                 .observe(on: scheduler)
                 .map {[weak self] solanaChain in

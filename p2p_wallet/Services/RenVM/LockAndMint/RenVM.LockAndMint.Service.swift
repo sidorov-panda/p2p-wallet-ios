@@ -10,6 +10,7 @@ import RxAlamofire
 import RxSwift
 import RxCocoa
 import Resolver
+import SolanaSwift
 
 protocol RenVMLockAndMintServiceType {
     var isLoadingDriver: Driver<Bool> {get}
@@ -43,6 +44,7 @@ extension RenVM.LockAndMint {
         private let sessionStorage: RenVMLockAndMintSessionStorageType
         private let transactionHandler: TransactionHandler
         @Injected private var notificationsService: NotificationsServiceType
+        private let sender: RenVMSolanaTransactionSenderType
         
         // MARK: - Properties
         private var loadingDisposable: Disposable?
@@ -65,7 +67,8 @@ extension RenVM.LockAndMint {
             solanaClient: RenVMSolanaAPIClientType,
             account: SolanaSDK.Account,
             sessionStorage: RenVMLockAndMintSessionStorageType,
-            transactionHandler: TransactionHandler
+            transactionHandler: TransactionHandler,
+            sender: RenVMSolanaTransactionSenderType
         ) {
             self.rpcClient = rpcClient
             self.solanaClient = solanaClient
@@ -76,6 +79,7 @@ extension RenVM.LockAndMint {
                 request: rpcClient.getTransactionFee(mintTokenSymbol: mintTokenSymbol)
                     .map {$0.convertToBalance(decimals: 8)}
             )
+            self.sender = sender
             
             reload()
             reloadMinimumTransactionAmount()
@@ -119,7 +123,8 @@ extension RenVM.LockAndMint {
             // request
             loadingDisposable = RenVM.SolanaChain.load(
                 client: rpcClient,
-                solanaClient: solanaClient
+                solanaClient: solanaClient,
+                sender: sender
             )
                 .observe(on: MainScheduler.instance)
                 .flatMap {[weak self] solanaChain -> Single<RenVM.LockAndMint.GatewayAddressResponse> in
