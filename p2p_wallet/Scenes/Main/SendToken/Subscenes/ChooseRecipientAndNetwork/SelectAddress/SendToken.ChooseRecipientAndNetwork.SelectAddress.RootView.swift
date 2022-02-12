@@ -182,11 +182,10 @@ extension SendToken.ChooseRecipientAndNetwork.SelectAddress {
             // fee view
             Driver.combineLatest(
                 isSearchingDriver,
-                viewModel.networkDriver,
                 viewModel.feesDriver
             )
-                .map {isSearching, network, fee in
-                    if isSearching || network != .solana {
+                .map {isSearching, fee in
+                    if isSearching {
                         return true
                     }
                     if let fee = fee {
