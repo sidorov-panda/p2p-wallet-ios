@@ -44,7 +44,7 @@ extension RenVM.LockAndMint {
         private let sessionStorage: RenVMLockAndMintSessionStorageType
         private let transactionHandler: TransactionHandler
         @Injected private var notificationsService: NotificationsServiceType
-        private let sender: RenVMSolanaTransactionSenderType
+        private let sender: RelaytableRenVMSolanaTransactionSenderType
         
         // MARK: - Properties
         private var loadingDisposable: Disposable?
@@ -68,7 +68,7 @@ extension RenVM.LockAndMint {
             account: SolanaSDK.Account,
             sessionStorage: RenVMLockAndMintSessionStorageType,
             transactionHandler: TransactionHandler,
-            sender: RenVMSolanaTransactionSenderType
+            sender: RelaytableRenVMSolanaTransactionSenderType
         ) {
             self.rpcClient = rpcClient
             self.solanaClient = solanaClient

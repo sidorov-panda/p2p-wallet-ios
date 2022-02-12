@@ -131,10 +131,6 @@ extension Resolver: ResolverRegistering {
             .implements(RenVMRpcClientType.self)
             .scope(.session)
         
-        register { RenVMSolanaTransactionSender() }
-            .implements(RenVMSolanaTransactionSenderType.self)
-            .scope(.session)
-        
         register {
             RenVM.LockAndMint.Service(
                 rpcClient: resolve(),
@@ -142,7 +138,7 @@ extension Resolver: ResolverRegistering {
                 account: resolve(SolanaSDK.self).accountStorage.account!,
                 sessionStorage: RenVM.LockAndMint.SessionStorage(),
                 transactionHandler: resolve(),
-                sender: resolve()
+                sender: RenVMSolanaTransactionSender()
             )
         }
             .implements(RenVMLockAndMintServiceType.self)
@@ -155,7 +151,7 @@ extension Resolver: ResolverRegistering {
                 account: resolve(SolanaSDK.self).accountStorage.account!,
                 transactionStorage: RenVM.BurnAndRelease.TransactionStorage(),
                 transactionHandler: resolve(),
-                sender: resolve()
+                sender: RenVMSolanaTransactionSender()
             )
         }
             .implements(RenVMBurnAndReleaseServiceType.self)

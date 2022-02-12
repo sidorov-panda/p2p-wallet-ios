@@ -10,7 +10,11 @@ import SolanaSwift
 import FeeRelayerSwift
 import RxSwift
 
-class RenVMSolanaTransactionSender: RenVMSolanaTransactionSenderType {
+protocol RelaytableRenVMSolanaTransactionSenderType: RenVMSolanaTransactionSenderType {
+    var payingFeeToken: FeeRelayer.Relay.TokenInfo? {get set}
+}
+
+class RenVMSolanaTransactionSender: RelaytableRenVMSolanaTransactionSenderType {
     @Injected private var solanaSDK: SolanaSDK
     @Injected private var relayService: FeeRelayerRelayType
     @Injected private var feeRelayerAPIClient: FeeRelayerAPIClientType

@@ -230,39 +230,33 @@ extension SendToken.ChooseRecipientAndNetwork.SelectAddress {
                 viewModel.recipientDriver,
                 viewModel.payingWalletDriver,
                 viewModel.payingWalletStatusDriver,
-                viewModel.feesDriver,
-                viewModel.networkDriver
+                viewModel.feesDriver
             )
-                .map { [weak self] recipient, payingWallet, payingWalletStatus, fees, network in
+                .map { [weak self] recipient, payingWallet, payingWalletStatus, fees in
                     guard let self = self else {return ""}
                     if recipient == nil {
                         return L10n.chooseTheRecipientToProceed
                     }
                     
-                    switch network {
-                    case .solana:
-                        switch self.viewModel.relayMethod {
-                        case .relay:
-                            if fees?.total != 0 {
-                                if let payingWallet = payingWallet {
-                                    switch payingWalletStatus {
-                                    case .loading:
-                                        return L10n.calculatingFees
-                                    case .invalid:
-                                        return L10n.PayingTokenIsNotValid.pleaseChooseAnotherOne
-                                    case .valid(_, let enoughBalance):
-                                        if !enoughBalance {
-                                            return L10n.yourAccountDoesNotHaveEnoughToCoverFees(payingWallet.token.symbol)
-                                        }
+                    switch self.viewModel.relayMethod {
+                    case .relay:
+                        if fees?.total != 0 {
+                            if let payingWallet = payingWallet {
+                                switch payingWalletStatus {
+                                case .loading:
+                                    return L10n.calculatingFees
+                                case .invalid:
+                                    return L10n.PayingTokenIsNotValid.pleaseChooseAnotherOne
+                                case .valid(_, let enoughBalance):
+                                    if !enoughBalance {
+                                        return L10n.yourAccountDoesNotHaveEnoughToCoverFees(payingWallet.token.symbol)
                                     }
-                                } else {
-                                    return L10n.chooseTheTokenToPayFees
                                 }
+                            } else {
+                                return L10n.chooseTheTokenToPayFees
                             }
-                        case .reward:
-                            break
                         }
-                    case .bitcoin:
+                    case .reward:
                         break
                     }
                     

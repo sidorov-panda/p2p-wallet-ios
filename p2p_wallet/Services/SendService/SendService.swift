@@ -44,7 +44,6 @@ class SendService: SendServiceType {
     @Injected var feeRelayerAPIClient: FeeRelayerAPIClientType
     @Injected var relayService: FeeRelayerRelayType
     @Injected private var renVMBurnAndReleaseService: RenVMBurnAndReleaseServiceType
-    @Injected private var renVMTransactionSender: RenVMSolanaTransactionSender
     @Injected private var feeService: FeeServiceType
     var cachedFeePayerPubkey: String?
     
@@ -164,7 +163,7 @@ class SendService: SendServiceType {
                 )
             }
         case .bitcoin:
-            renVMTransactionSender.payingFeeToken = try? getPayingFeeToken(payingFeeWallet: payingFeeWallet)
+            renVMBurnAndReleaseService.sender.payingFeeToken = try? getPayingFeeToken(payingFeeWallet: payingFeeWallet)
             request = renVMBurnAndReleaseService.burn(
                 recipient: receiver,
                 amount: amount
