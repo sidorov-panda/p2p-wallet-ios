@@ -11,6 +11,7 @@ import RxSwift
 import RxCocoa
 import Resolver
 import SolanaSwift
+import RenVMSwift
 
 protocol RenVMLockAndMintServiceType {
     var isLoadingDriver: Driver<Bool> {get}

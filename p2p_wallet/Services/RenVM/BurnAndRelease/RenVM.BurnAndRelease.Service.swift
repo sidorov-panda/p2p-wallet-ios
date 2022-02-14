@@ -9,6 +9,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 import SolanaSwift
+import RenVMSwift
 
 protocol RenVMBurnAndReleaseServiceType {
     var sender: RenVMSolanaTransactionSender {get}
