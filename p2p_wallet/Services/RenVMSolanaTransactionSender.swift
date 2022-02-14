@@ -9,6 +9,7 @@ import Foundation
 import SolanaSwift
 import FeeRelayerSwift
 import RxSwift
+import RenVMSwift
 
 protocol RelaytableRenVMSolanaTransactionSenderType: RenVMSolanaTransactionSenderType {
     var payingFeeToken: FeeRelayer.Relay.TokenInfo? {get set}
